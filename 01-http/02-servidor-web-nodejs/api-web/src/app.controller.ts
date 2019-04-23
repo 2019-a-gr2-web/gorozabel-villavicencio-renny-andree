@@ -70,9 +70,9 @@ export class AppController {
     ciudad(@Param() parametroRuta){
         switch(parametroRuta.idciudad.toLowerCase()){
             case 'quito':
-                return 'Que fueff'
+                return 'Que fueff';
             case 'guayaquil':
-                return 'Que maah ñañoshh'
+                return 'Que maah ñañoshh';
             default:
                 return 'Buenas tardes'
         }
@@ -108,6 +108,50 @@ export class AppController {
             return ':(';
     }
 
+
+    //  -------------------- DEBER CALCULADORA ---------------------    //
+    @Get('/sumar')
+    @HttpCode(200)
+    sumar(
+        @Headers() header
+    ){
+        console.log("Headers: ",header);
+        return Number(header.numero1)+Number(header.numero2);
+    }
+
+    @Post('/restar')
+    @HttpCode(201)
+    restar(
+        @Body() body
+    ){
+        console.log("Body: ",body);
+        return Number(body.numero1)-Number(body.numero2);
+    }
+
+    @Put('/multiplicar')
+    @HttpCode(202)
+    multiplicar(
+        @Query() query
+    ){
+        console.log("Query: ",query);
+        return Number(query.numero1)*Number(query.numero2);
+    }
+
+    @Delete('/division')
+    @HttpCode(203)
+    division(
+        @Headers() header,
+        @Body() body
+    ){
+        console.log("Headers: ",header);
+        console.log("Body: ",body);
+        const n1=Number(header.numero1);
+        const n2=Number(body.numero2);
+        if(n2==0)
+            return "No se puede dividir para 0";
+
+        return n1/n2;
+    }
 
 /*
         Segmento Inicial: /api
@@ -166,7 +210,7 @@ const json =[
 let objeto:any = {
     propiedad:'valor',
     propiedadDos:'valor2'
-}
+};
 // Agregar propiedades a un objeto
 objeto.propiedadTres = 'valor3';
 objeto['propiedadTres'] = 'valor 3';
