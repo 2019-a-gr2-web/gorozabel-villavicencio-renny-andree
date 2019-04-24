@@ -147,44 +147,158 @@ export class AppController {
     @Get('/sumar')
     @HttpCode(200)
     sumar(
-        @Headers() header
+        @Headers() header,
+        @Request() request,
+        @Response() response
     ){
-        console.log("Headers: ",header);
-        return Number(header.numero1)+Number(header.numero2);
+        const cookies= request.cookies;
+        const n1=Number(header.numero1), n2=Number(header.numero2);
+        if(!cookies.usuario)
+            response.cookie("usuario","Renny Gorozabel");
+
+        const esquemaValidacionNumero = Joi.object().keys({
+            nombre:Joi.string().required(),
+            numero1:Joi.number().integer().required(),
+            numero2:Joi.number().integer().required()
+        });
+        const objetoValidacion={
+            nombre:cookies.usuario,
+            numero1:n1,
+            numero2:n2
+        };
+
+        const resultado = Joi.validate(objetoValidacion,
+            esquemaValidacionNumero);
+
+        if(resultado.error){
+            return response.send(`Resultado: ${resultado.error}`);
+        }else{
+            console.log('To\'o bien');
+        }
+        const suma=n1+n2;
+        const res={
+            resultado:suma,
+            usuario:cookies.usuario
+        }
+        return response.send(res);
     }
 
     @Post('/restar')
     @HttpCode(201)
     restar(
-        @Body() body
+        @Body() body,
+        @Response() response,
+        @Request() request
     ){
-        console.log("Body: ",body);
-        return Number(body.numero1)-Number(body.numero2);
+        const cookies= request.cookies;
+        const n1=Number(body.numero1), n2=Number(body.numero2);
+        if(!cookies.usuario)
+            response.cookie("usuario","Renny Gorozabel");
+
+        const esquemaValidacionNumero = Joi.object().keys({
+            nombre:Joi.string().required(),
+            numero1:Joi.number().integer().required(),
+            numero2:Joi.number().integer().required()
+        });
+        const objetoValidacion={
+            nombre:cookies.usuario,
+            numero1:n1,
+            numero2:n2
+        };
+
+        const resultado = Joi.validate(objetoValidacion,
+            esquemaValidacionNumero);
+
+        if(resultado.error){
+            return response.send(`Resultado: ${resultado.error}`);
+        }else{
+            console.log('To\'o bien');
+        }
+        const resta=n1-n2;
+        const res={
+            resultado:resta,
+            usuario:cookies.usuario
+        }
+        return response.send(res);
     }
 
     @Put('/multiplicar')
     @HttpCode(202)
     multiplicar(
-        @Query() query
+        @Query() query,
+        @Response() response,
+        @Request() request
     ){
-        console.log("Query: ",query);
-        return Number(query.numero1)*Number(query.numero2);
+        const cookies= request.cookies;
+        const n1=Number(query.numero1), n2=Number(query.numero2);
+        if(!cookies.usuario)
+        response.cookie("usuario","Renny Gorozabel");
+
+        const esquemaValidacionNumero = Joi.object().keys({
+            nombre:Joi.string().required(),
+            numero1:Joi.number().integer().required(),
+            numero2:Joi.number().integer().required()
+        });
+        const objetoValidacion={
+            nombre:cookies.usuario,
+            numero1:n1,
+            numero2:n2
+        };
+
+        const resultado = Joi.validate(objetoValidacion,
+            esquemaValidacionNumero);
+
+        if(resultado.error){
+        return response.send(`Resultado: ${resultado.error}`);
+        }else{
+        console.log('To\'o bien');
+        }
+        const prod=n1*n2;
+        const res={
+        resultado:prod,
+        usuario:cookies.usuario
+        };
+        return response.send(res);
     }
 
     @Delete('/division')
     @HttpCode(203)
     division(
         @Headers() header,
-        @Body() body
+        @Body() body,
+        @Response() response,
+        @Request() request
     ){
-        console.log("Headers: ",header);
-        console.log("Body: ",body);
-        const n1=Number(header.numero1);
-        const n2=Number(body.numero2);
-        if(n2==0)
-            return "No se puede dividir para 0";
+        const cookies= request.cookies;
+        const n1=Number(header.numero1), n2=Number(body.numero2);
+        if(!cookies.usuario)
+        response.cookie("usuario","Renny Gorozabel");
 
-        return n1/n2;
+        const esquemaValidacionNumero = Joi.object().keys({
+            nombre:Joi.string().required(),
+            numero1:Joi.number().integer().required(),
+            numero2:Joi.number().integer().min(1).required()
+        });
+        const objetoValidacion={
+            nombre:cookies.usuario,
+            numero1:n1,
+            numero2:n2
+        };
+
+        const resultado = Joi.validate(objetoValidacion,
+            esquemaValidacionNumero);
+
+        if(resultado.error){
+        return response.send(`Resultado: ${resultado.error}`);
+        }else{
+        console.log('To\'o bien');
+        }
+        const div=n1/n2;
+        const res={
+        resultado:div,
+        usuario:cookies.usuario
+        }
+        return response.send(res);
     }
 
 /*
