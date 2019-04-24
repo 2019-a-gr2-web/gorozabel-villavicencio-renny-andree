@@ -297,9 +297,18 @@ export class AppController {
         const res={
         resultado:div,
         usuario:cookies.usuario
-        }
+        };
         return response.send(res);
     }
+
+    @Get('inicio')
+    inicio(
+        @Response() res
+    ){
+        return res.render('inicio');
+    }
+
+
 
 /*
         Segmento Inicial: /api
@@ -364,3 +373,155 @@ objeto.propiedadTres = 'valor3';
 objeto['propiedadTres'] = 'valor 3';
 delete objeto.propiedadTres; //=>Destruit Danger
 objeto.propiedadTres = undefined; // => Destruir
+
+function holaMundo(){
+    console.log('Hola Mundo');
+}
+const respuestaHolaMundo=holaMundo();
+console.log('Resp hola mundo: ',respuestaHolaMundo);
+
+function suma(a:number,b:number):number{
+    return a+b;
+}
+const respuestaSuma = suma(2,3);
+console.log('Resp suma: ',respuestaSuma);
+
+// condicionales
+// Truty -> true
+// Falsy -> false
+if(true){ // Truty
+    console.log('Verdadero');
+}else{
+    console.log('Falso');
+}
+
+if(false){
+    console.log('Verdadero');
+}else{
+    console.log('Falso');
+}
+
+if(""){ //Falsy
+    console.log('Verdaero "" ');
+}else{
+    console.log('Falso "" ');
+}
+
+if("a"){ //Truty
+    console.log('Verdaero "a" ');
+}else{
+    console.log('Falso "a" ');
+}
+
+if(0){ //Falsy
+    console.log('Verdaero 0 ');
+}else{
+    console.log('Falso 0 ');
+}
+
+if("0"){ //Truty
+    console.log('Verdaero "0" ');
+}else{
+    console.log('Falso "0" ');
+}
+
+if(-1){ //Truty
+    console.log('Verdaero -1 ');
+}else{
+    console.log('Falso -1 ');
+}
+
+if(1){ //Truty
+    console.log('Verdaero 1 ');
+}else{
+    console.log('Falso 1 ');
+}
+
+if(undefined){ //Falsy
+    console.log('Verdaero "undefined" ');
+}else{
+    console.log('Falso "undefined" ');
+}
+
+if(null){ //Falsy
+    console.log('Verdaero "null" ');
+}else{
+    console.log('Falso "null" ');
+}
+
+if({}){ //Truty
+    console.log('Verdaero "{}" ');
+}else{
+    console.log('Falso "{}" ');
+}
+
+//Operadores de Arreglo
+const arreglo =[
+    function(){return 0},
+    1,
+    'A',
+    true,
+    null,
+
+];
+
+const arregloNumerosForEach = [1,2,3,4,5,6];
+
+// 1) Imprimir en consola todos los elementos;
+// 2) Sumen 2 a los pares y 1 a los Impares
+// 3) Encuentre si hay el numero 4
+// 4) Filtren los numeros menores a 5
+// 5) Tpdps ñps valores positivos
+// 6) Algun valor es menor que 2
+// 7) Sumar todos los valores
+// 8) Restar todos los valores de 100
+
+// 1.1) Sume 10 a todos
+// 2.1) Filtre a los mayores a 15
+// 3.1) Si hay algun numero mayor a 30
+
+const rForEach=arregloNumerosForEach
+    .forEach(
+        function (
+            valorActual,
+            indice,
+            arreglo
+        ) {
+            console.log(`Valor: ${valorActual}`);
+            console.log(`Valor: ${indice}`);
+            console.log(`Valor: ${arreglo}`);
+        }
+    );
+
+const arregloNumerosForMap = [1,2,3,4,5,6];
+const rMap=arregloNumerosForMap.map(    // Devolver el nuevo valor de ese elemento
+    (valorActual)=>{
+        const esPar=valorActual%2==0;
+        if(esPar)
+            return valorActual+2;
+        else
+            return valorActual+1
+    }
+);
+console.log(`Respuesta Map: ${rMap}`);
+
+const arregloNumerosForFind = [1,2,3,4,5,6];
+
+const rFind = arregloNumerosForFind.find(
+    (valorActual)=>{
+        return valorActual==4;
+    }
+);
+
+console.log(`Respuesta Find: ${rFind}`);
+
+
+const arregloNumerosForFilter = [1,2,3,4,5,6];
+const rFilter = arregloNumerosForFilter.filter(
+    (valorActual) =>{
+        return valorActual < 5;
+    }
+);
+
+console.log(`Respuesta Filter: ${rFind}`);
+
