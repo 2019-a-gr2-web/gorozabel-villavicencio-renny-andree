@@ -14,9 +14,8 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import * as Joi from '@hapi/joi';
-import {log} from "util";
 
-//const Joi = require('@hapi/joi');
+// const Joi = require('@hapi/joi');
 // http.//192.168.1.10:3000/ruta
 // http.//192.168.1.10:3000/api
 // http.//192.168.1.10:3000/mascotas/crear
@@ -135,7 +134,7 @@ export class AppController {
                 new Date().getTime(),
                 {   //OPCIONES
                     expires:horaFechaServidor,
-                    signed:true
+                    signed: true
                 });
             return response.send('ok');
         }else
@@ -151,7 +150,15 @@ export class AppController {
         @Request() request,
         @Response() response
     ){
+        console.log(request.signedCookies);
         const cookies= request.cookies;
+        const cookieSig=request.signedCookies;
+        if(!cookieSig.intentos){
+            console.log("No deberías aparecer");
+            response.cookie('intentos','100',{signed:true});
+            console.log("wwwwwww", cookieSig);
+        }
+
         const n1=Number(header.numero1), n2=Number(header.numero2);
         if(!cookies.usuario)
             response.cookie("usuario","Renny Gorozabel");
@@ -176,11 +183,21 @@ export class AppController {
             console.log('To\'o bien');
         }
         const suma=n1+n2;
-        const res={
-            resultado:suma,
-            usuario:cookies.usuario
+        const tIntentos=cookieSig.intentos-suma;
+        if(tIntentos<0)
+            response.send(`Se le acabó el cupo`);
+        else{
+            cookieSig.intentos=tIntentos;
+            const res={
+                resultado:suma,
+                usuario:cookies.usuario,
+                intentos:cookieSig.intentos
+            };
+            response.cookie('intentos',cookieSig.intentos,{signed:true});
+            return response.send(res);
         }
-        return response.send(res);
+
+
     }
 
     @Post('/restar')
