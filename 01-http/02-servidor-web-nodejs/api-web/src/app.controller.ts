@@ -150,15 +150,12 @@ export class AppController {
         @Request() request,
         @Response() response
     ){
-        console.log(request.signedCookies);
         const cookies= request.cookies;
         const cookieSig=request.signedCookies;
         if(!cookieSig.intentos){
             console.log("No deberías aparecer");
             response.cookie('intentos','100',{signed:true});
-            console.log("wwwwwww", cookieSig);
         }
-
         const n1=Number(header.numero1), n2=Number(header.numero2);
         if(!cookies.usuario)
             response.cookie("usuario","Renny Gorozabel");
@@ -184,16 +181,21 @@ export class AppController {
         }
         const suma=n1+n2;
         const tIntentos=cookieSig.intentos-suma;
-        if(tIntentos<0)
-            response.send(`Se le acabó el cupo`);
-        else{
-            cookieSig.intentos=tIntentos;
+        if(tIntentos<=0) {
+            const res = {
+                resultado: suma,
+                usuario: cookies.usuario,
+                mensaje: "Se le acabó el cupo"
+            };
+            response.send(res);
+        }else{
             const res={
                 resultado:suma,
                 usuario:cookies.usuario,
-                intentos:cookieSig.intentos
             };
-            response.cookie('intentos',cookieSig.intentos,{signed:true});
+            if(cookieSig.intentos){
+                response.cookie('intentos',tIntentos,{signed:true});
+            }
             return response.send(res);
         }
 
@@ -206,37 +208,55 @@ export class AppController {
         @Body() body,
         @Response() response,
         @Request() request
-    ){
-        const cookies= request.cookies;
-        const n1=Number(body.numero1), n2=Number(body.numero2);
-        if(!cookies.usuario)
-            response.cookie("usuario","Renny Gorozabel");
+    ) {
+        const cookies = request.cookies;
+        const cookieSig = request.signedCookies;
+        if (!cookieSig.intentos) {
+            console.log("No deberías aparecer");
+            response.cookie('intentos', '100', { signed: true });
+        }
+        const n1 = Number(body.numero1), n2 = Number(body.numero2);
+        if (!cookies.usuario)
+            response.cookie("usuario", "Renny Gorozabel");
 
         const esquemaValidacionNumero = Joi.object().keys({
-            nombre:Joi.string().required(),
-            numero1:Joi.number().integer().required(),
-            numero2:Joi.number().integer().required()
+            nombre: Joi.string().required(),
+            numero1: Joi.number().integer().required(),
+            numero2: Joi.number().integer().required()
         });
-        const objetoValidacion={
-            nombre:cookies.usuario,
-            numero1:n1,
-            numero2:n2
+        const objetoValidacion = {
+            nombre: cookies.usuario,
+            numero1: n1,
+            numero2: n2
         };
 
         const resultado = Joi.validate(objetoValidacion,
-            esquemaValidacionNumero);
+          esquemaValidacionNumero);
 
-        if(resultado.error){
+        if (resultado.error) {
             return response.send(`Resultado: ${resultado.error}`);
-        }else{
+        } else {
             console.log('To\'o bien');
         }
-        const resta=n1-n2;
-        const res={
-            resultado:resta,
-            usuario:cookies.usuario
+        const resta = n1 - n2;
+        const tIntentos = cookieSig.intentos - resta;
+        if(tIntentos<=0) {
+            const res = {
+                resultado: resta,
+                usuario: cookies.usuario,
+                mensaje: "Se le acabó el cupo"
+            };
+            response.send(res);
+        }else{
+            const res={
+                resultado:resta,
+                usuario:cookies.usuario,
+            };
+            if(cookieSig.intentos){
+                response.cookie('intentos',tIntentos,{signed:true});
+            }
+            return response.send(res);
         }
-        return response.send(res);
     }
 
     @Put('/multiplicar')
@@ -246,7 +266,12 @@ export class AppController {
         @Response() response,
         @Request() request
     ){
-        const cookies= request.cookies;
+        const cookies = request.cookies;
+        const cookieSig = request.signedCookies;
+        if (!cookieSig.intentos) {
+            console.log("No deberías aparecer");
+            response.cookie('intentos', '100', { signed: true });
+        }
         const n1=Number(query.numero1), n2=Number(query.numero2);
         if(!cookies.usuario)
         response.cookie("usuario","Renny Gorozabel");
@@ -271,11 +296,24 @@ export class AppController {
         console.log('To\'o bien');
         }
         const prod=n1*n2;
-        const res={
-        resultado:prod,
-        usuario:cookies.usuario
-        };
-        return response.send(res);
+        const tIntentos=cookieSig.intentos-prod;
+        if(tIntentos<=0) {
+            const res = {
+                resultado: prod,
+                usuario: cookies.usuario,
+                mensaje: "Se le acabó el cupo"
+            };
+            response.send(res);
+        }else{
+            const res={
+                resultado:prod,
+                usuario:cookies.usuario,
+            };
+            if(cookieSig.intentos){
+                response.cookie('intentos',tIntentos,{signed:true});
+            }
+            return response.send(res);
+        }
     }
 
     @Delete('/division')
@@ -286,7 +324,12 @@ export class AppController {
         @Response() response,
         @Request() request
     ){
-        const cookies= request.cookies;
+        const cookies = request.cookies;
+        const cookieSig = request.signedCookies;
+        if (!cookieSig.intentos) {
+            console.log("No deberías aparecer");
+            response.cookie('intentos', '100', { signed: true });
+        }
         const n1=Number(header.numero1), n2=Number(body.numero2);
         if(!cookies.usuario)
         response.cookie("usuario","Renny Gorozabel");
@@ -311,11 +354,24 @@ export class AppController {
         console.log('To\'o bien');
         }
         const div=n1/n2;
-        const res={
-        resultado:div,
-        usuario:cookies.usuario
-        };
-        return response.send(res);
+        const tIntentos=cookieSig.intentos-div;
+        if(tIntentos<=0) {
+            const res = {
+                resultado: div,
+                usuario: cookies.usuario,
+                mensaje: "Se le acabó el cupo"
+            };
+            response.send(res);
+        }else{
+            const res={
+                resultado:div,
+                usuario:cookies.usuario,
+            };
+            if(cookieSig.intentos){
+                response.cookie('intentos',tIntentos,{signed:true});
+            }
+            return response.send(res);
+        }
     }
 
     @Get('inicio')
