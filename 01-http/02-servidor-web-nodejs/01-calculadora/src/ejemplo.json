@@ -1,0 +1,22 @@
+[
+  {
+    "llave":"valor",
+    "key":"value",
+    "nombre":"Renny",
+    "edad":21,
+    "sueldo":102.3,
+    "casado":false,
+    "hijos":null,
+    "mascotas":[
+      "Nessita",
+      1,
+      1.01,
+      false,
+      null,
+      {
+        "nombre":"Nessita",
+        "apellido":"GoroVilla"
+      }
+    ]
+  }
+]

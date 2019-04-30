@@ -153,7 +153,6 @@ export class AppController {
         const cookies= request.cookies;
         const cookieSig=request.signedCookies;
         if(!cookieSig.intentos){
-            console.log("No deberías aparecer");
             response.cookie('intentos','100',{signed:true});
         }
         const n1=Number(header.numero1), n2=Number(header.numero2);
@@ -180,7 +179,7 @@ export class AppController {
             console.log('To\'o bien');
         }
         const suma=n1+n2;
-        const tIntentos=cookieSig.intentos-suma;
+        const tIntentos=Number(cookieSig.intentos)-suma;
         if(tIntentos<=0) {
             const res = {
                 resultado: suma,
@@ -196,6 +195,7 @@ export class AppController {
             if(cookieSig.intentos){
                 response.cookie('intentos',tIntentos,{signed:true});
             }
+            console.log(tIntentos);
             return response.send(res);
         }
 
@@ -370,6 +370,7 @@ export class AppController {
             if(cookieSig.intentos){
                 response.cookie('intentos',tIntentos,{signed:true});
             }
+            console.log(tIntentos);
             return response.send(res);
         }
     }
@@ -598,3 +599,84 @@ const rFilter = arregloNumerosForFilter.filter(
 
 console.log(`Respuesta Filter: ${rFind}`);
 
+const arregloNumerosEvery = [1,2,3,4,5,6];
+const bool = arregloNumerosEvery.every(   //Si TODOS cumplen TRUE
+                            //si ALGUNO no cumple FALSE
+  (valorActual)=>{
+      return valorActual > 0
+  }
+);
+console.log(bool);
+
+/* ALGUN valor es menor que 2
+const arregloNumerosSome = [1,2,3,4,5,6];
+arregloNumerosSome.some(
+            // si ALGUNO cumple la condicion tonces la condicion es TRUE
+
+
+)
+*/
+// 7 Sumen todos los valores
+
+const arregloNumeroReduce=[1,2,3,4,5,6];
+const valorDondeEmpiezaCalculo=0;
+const respuestaReduce = arregloNumeroReduce.reduce(
+  (acumulado,valorActual) => {
+      return acumulado+valorActual;
+  },
+  valorDondeEmpiezaCalculo
+);
+console.log(respuestaReduce);
+
+//Menores a 4 le sumen el 10% + 5
+//>=a 4 15% + 3
+
+const ejercicioMap=[1,2,3,4,5,6];
+const numero0=0;
+const ejerMap = ejercicioMap.map(
+  (valorActual)=>{
+      const menorQ = valorActual < 4;
+      if(menorQ)
+          return valorActual*(1.1) + 5
+      else
+          return valorActual*(1.15) + 3
+  }
+).reduce(
+  (acumulado,valorActual)=>{
+      return acumulado+valorActual
+  },
+  numero0
+);
+
+console.log(`Respuesta Ejercicio: ${ejerMap}`);
+
+//8 Restar todos los valores de 100
+
+const arreglo100=[1,2,3,4,5,6];
+const valorInicial=100;
+
+const res100 = arreglo100.reduce(
+  (acumulado,valorActual) => {
+      return 100-valorActual;
+},
+valorInicial
+);
+
+console.log(`Respuesta 100: res100`);
+
+// 9 Sumar 10 a todos los elementos
+
+const arregloMas10=[1,2,3,4,5,6];
+const respMas10 = arregloMas10.map(
+  valorActual =>{
+      return valorActual+10;
+  }
+).filter(
+  (valorActual) => {
+      return valorActual > 15;
+  }
+).some(
+  (valorActual)=> {
+      return valorActual > 30;
+  }
+);
