@@ -393,6 +393,15 @@ export class AppController {
     });
   }
 
+  @Get('estilos')  //endPoint
+  estilos(
+    @Response() res
+  ){
+    return res.render('peliculas/estilos',{
+
+    });
+  }
+
 
 /*
         Segmento Inicial: /api
