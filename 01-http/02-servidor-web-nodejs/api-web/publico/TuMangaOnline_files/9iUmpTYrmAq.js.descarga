@@ -1,0 +1,3 @@
+if (self.CavalryLogger) { CavalryLogger.start_js(["\/ro8P"]); }
+
+__d("WebStoragePerfLogger",["QuickPerformanceLogger","WwwWebstorageQuickLogModule"],(function(a,b,c,d,e,f){"use strict";a={markerStart:function(a,c){b("QuickPerformanceLogger").markerStart(b("WwwWebstorageQuickLogModule").ACCESS),b("QuickPerformanceLogger").annotateMarkerString(b("WwwWebstorageQuickLogModule").ACCESS,"action",c),b("QuickPerformanceLogger").annotateMarkerString(b("WwwWebstorageQuickLogModule").ACCESS,"type",a)},markerEnd:function(a){b("QuickPerformanceLogger").markerEnd(b("WwwWebstorageQuickLogModule").ACCESS,a)}};e.exports=a}),null);

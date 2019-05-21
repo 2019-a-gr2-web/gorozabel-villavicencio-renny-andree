@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" href="/imagenes/deber1/fgo-favicon.ico">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lancelot (Saber) | Fate Grand Order Wiki - GamePress</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .gamePressLogo{
+            background-color: #193362;
+            border-top: 1px solid #354a68;
+            border-bottom: 1px solid #354a68;
+            padding: 11px;
+            text-align: center;
+            display: block;
+            position: relative;
+
+        }
+        .logo{
+            max-width: 100%;
+            height: 30px!important;
+            padding-left: 13px;
+            float: left;
+            position: relative;
+            border-radius: 10px;
+        }
+        .logo2{
+            max-width: 100%;
+            margin-left: 11px;
+            height: 30px!important;
+            float: left;
+            position: relative;
+            border-radius: 10px;
+        }
+        .slide{
+            padding-inline-start: 0px;
+            margin-bottom: 0px;
+            text-align: left;
+            padding: 0px;
+        }
+        .slideBack{
+            background-color: #23406f;
+            border: none;
+            float: left;
+            height: 53px;
+            width: 25px;
+
+        }
+        .imgSlide{
+            height: 30px!important;
+            width: 100%;
+            fill: lightgray;
+            color: lightgray;
+        }
+        .slideMenu{
+            background-color: #142041;
+            height: 100%;
+        }
+        .listaHead{
+            padding: 10px 2px 2px 2px ;
+            height: 100%;
+            border: solid 1px #354a68;
+        }
+        .sideImg{
+            color: white;
+            margin: 4px 0px 0px 47px;
+            padding-top: 10px;
+            font-size: 15px;
+
+        }
+        .rigthTop{
+            padding: 25px;
+            padding-left: 10px;
+            padding-right: 0px;
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+        }
+        .navi{
+            line-height: 0px;
+        }
+        .separator{
+            width: 100%;
+            height: 130px;
+        }
+        .botonImg{
+            padding: 0px;
+            margin: 10px;
+            background-color: #585858;
+        }
+        .logo3{
+            max-width: 100%;
+            height: 50px!important;
+            float: left;
+            position: relative;
+            border-radius: 10px;
+        }
+        .contenedor{
+            background-color: #444444;
+
+        }
+        .sideImg1{
+            color: white;
+            padding-left: 70px;
+            padding-top: 13px;
+            font-size: 15px;
+        }
+        .botonImg2{
+            padding: 0px 0px 0px 6px;
+            background-color: #585858;
+            height: 50px!important;
+            width: auto!important;
+        }
+        .inputHead{
+            border-radius: 10px;
+            height: 48px!important;
+            width: 100%;
+            padding: 20px;
+            border:none;
+        }
+        .divInputHead{
+            padding: 10px;
+        }
+        .inner-addon {
+            position: relative;
+        }
+
+        /* style icon */
+        .inner-addon .glyphicon {
+            position: absolute;
+            padding: 10px;
+            pointer-events: none;
+        }
+
+        /* align icon */
+        .left-addon .glyphicon  { left:  0px;}
+        .right-addon .glyphicon { right: 0px;}
+
+        /* add padding  */
+        .left-addon input  { padding-left:  30px; }
+        .right-addon input { padding-right: 30px; }
+
+        .buttonSign{
+            padding-top: 13px;
+            float: left;
+            width: 35%;
+            margin-right: 20px;
+            position: relative;
+            background-color: #333;
+        }
+        .divButton{
+            padding: 3%;
+            margin-left: 10%;
+        }
+        .bordeGris{
+            border:solid 1px grey;
+            text-align: center;
+            padding-top:1%;
+            padding-bottom: 1%;
+            background-color: #FFFFFF;
+        }
+        .colborder{
+            border: transparent;
+            border-radius: 5%;
+        }
+        .cabez{
+            background: #585858;
+            padding: 3%;
+        }
+        .floatImg{
+            float: left;
+            position: relative;
+        }
+        .whiteStrong{
+            font-weight: bolder;
+            color: white;
+        }
+        .grisDiv{
+            padding: 1% 1% 1% 10%;
+            background-color: #d9d9d9;
+        }
+        .containerGrey{
+            background-color: #e7e7e7;
+        }
+        .listCol{
+            font-size: 18px;
+            margin-left: -35px;
+        }
+        .liStyle{
+            padding: 1px;
+            margin: 10px;
+        }
+        .blanquito{
+            background-color: #f4f4f4;
+            padding: 5px;
+        }
+        .blancoGris{
+            background-color: #f4f4f4;
+            padding: 1% 1% 1% 5%;
+            border-left: grey 3px solid;
+        }
+        .azulGris{
+            padding: 1% 1% 1% 4%;
+            background-color: #585858;
+            border-left: #1a38a4 10px solid;
+        }
+        .conteUno{
+            padding: 1.5%;
+            background-color: #ffffff;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+        .conteUnoInside{
+            color: #676767;
+            padding: 8px 10px;
+            box-shadow: 0 0 5px #adadad;
+            background-color: white;
+            border: 1px solid rgba(213, 213, 213, 0.47);
+            display: block;
+        }
+        .conteUnoInside:hover{
+            cursor: pointer;
+        }
+        .h3Azul{
+            color: #576bcf;;
+
+        }
+        .conteDos{
+            display: block;
+            padding: 12px;
+            color: #676767;
+            border-bottom: 1px solid #ebeef2;
+            background: #fff;
+            margin: 0;
+            border-top: 1px solid #ebeef2;
+        }
+        .conteTres{
+            background: #fff;
+            border-radius: 3px;
+            padding: 8px 8px;
+            margin: 8px;
+            border: 1px solid #ebeef2
+        }
+        .btn-azul-block{
+            border: 1px #576bcf solid;
+            color: #576bcf;
+            font-weight: bold;
+            padding-top:1.5%;
+            padding-bottom: 1.5%;
+            font-size: 18px;
+        }
+        .conte3{
+            background-color: white;
+        }
+        .buttonAncho{
+            margin: 1%;
+            padding: 10px 20%;
+        }
+        .conteAll{
+            padding: 2%;
+            background-color: white;
+        }
+        .asideImg{
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+        .sizeF{
+            font-size: 13px;
+        }
+        .floatRigth{
+            position: absolute;
+            right: 7%;
+        }
+        .margin0{
+            height: 50%;
+        }
+        .marginzero{
+            margin:0px;
+        }
+        .pad10{
+            padding-left: 15px;
+        }
+        .bordeAll{
+            border: 1px grey solid;
+            padding: 10px 40px 10px 10px;
+            border-radius: 5px;
+            background-color: #e8e8e8;
+        }
+        .borderAllP{
+            border: 1px grey solid;
+            padding: 10px 40px 10px 10px;
+            border-radius: 5px;
+        }
+        .blackStrong{
+            color: #676767;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navBar navi">
+        <div class="row">
+            <div class="col-lg-2 col-md-12 col-sm-12 gamePressLogo">
+                    <a href="">
+                        <img src="/imagenes/deber1/GamePressNewLogo.png" alt="" class="logo">
+                    </a>
+            </div>
+            <div class="col-lg-7 col-md-12 col-sm-12 gamePressLogo slide" >
+                <ul class="slide" style="height: 100%;">
+                    <div class="slideMenu row">
+                    <div class="  col-sm-1 col-md-1 col-lg-1">
+                        <button type="button" class="slideBack">
+                            <img src="/imagenes/deber1/open-iconic-master/svg/chevron-left.svg" alt="" class="imgSlide" id="flecha">
+                        </button>
+                    </div>
+
+                        <div class="listaHead col-sm-4 col-md-4 col-lg-4">
+                            <img class="logo2" src="/imagenes/deber1/wu-icon.png" alt="">
+                            <p class="sideImg">HPWU</p>
+                        </div>
+                        <div class="listaHead col-sm-2 col-md-2 col-lg-2">
+                            <img class="logo2" src="/imagenes/deber1/pokemongoicon.png" alt="">
+                            <p class="sideImg">POGO</p>
+                        </div>
+                        <div class=" col-sm-1 col-md-1">
+                            <button type="button" class="slideBack">
+                                <img src="/imagenes/deber1/open-iconic-master/svg/chevron-right.svg" alt="" class="imgSlide" id="flecha">
+                            </button>
+                        </div>
+                        </div>
+
+
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 slide gamePressLogo">
+
+                <div class="row">
+                    <div class="col-sm-5 col-md-5 col-lg-4">
+                        <div class="rigthTop">Community</div>
+                    </div>
+                    <div class="col-sm-1 col-md-1 col-lg-1">
+                        <div class="rigthTop">°</div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="rigthTop">Write for  Us!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div >
+        <img class="separator" src="/imagenes/deber1/separador.jpg" alt="">
+    </div>
+    <div class="contenedor">
+        <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12">
+                <div class="botonImg">
+                    <div href="#" class="botonImg2">
+                        <img class="logo3" src="/imagenes/deber1/fgo.png" alt="">
+                        <div class="sideImg1">Fate Grand Order Wiki - GamePress</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="divInputHead inner-addon left-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                    <input class="inputHead" type="text" placeholder="Seach...">
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="contenedor">
+                    <div class="divButton">
+                        <button type="button" class="btn btn-primary inputHead buttonSign">
+                            <h3>Sign In</h3>
+                        </button>
+                        <button type="button" class="btn btn-primary inputHead buttonSign" style="background-color: #696969;">
+                            <h3>Register</h3>
+                        </button>
+                    </div>
+
+                </div>
+
+
+                
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="containerGrey">
+        <div class="barrita">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 bordeGris">
+                            <a href="">
+                                <img src="/imagenes/deber1/barraI/home.jpg" alt="">
+                                <h3>Home</h3>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 bordeGris">
+                            <a href="">
+                                <img src="/imagenes/deber1/barraI/tlist.jpg" alt="">
+                                <h3>Tier List</h3>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 bordeGris">
+                            <a href="">
+                                <img src="/imagenes/deber1/barraI/servants.jpg" alt="">
+                                <h3>Servants</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 bordeGris">
+                            <a href="">
+                                <img src="/imagenes/deber1/barraI/planner.jpg" alt="">
+                                <h3>Planner</h3>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 bordeGris">
+                            <a href="">
+                                <img src="/imagenes/deber1/barraI/simulator.jpg" alt="">
+                                <h3>Simulator</h3>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 bordeGris">
+                            <a href="">
+                                <img src="/imagenes/deber1/barraI/guides.jpg" alt="">
+                                <h3>Guides</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 bordeGris">
+                            <a href="">
+                                <img src="/imagenes/deber1/barraI/materials.jpg" alt="">
+                                <h3>Materials</h3>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 bordeGris">
+                            <a href="">
+                                <img src="/imagenes/deber1/barraI/News.jpg" alt="">
+                                <h3>News</h3>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 bordeGris">
+                            <a href="">
+                                <img src="/imagenes/deber1/barraI/community.jpg" alt="">
+                                <h3>Community</h3>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+         <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-sm-12">
+                    <div class="colborder">
+                        <div class="cabez">
+                            <img src="/imagenes/deber1/barraI/menu.jpg" class="floatImg" alt="">
+                            <h2 class="whiteStrong">Menu</h2>
+                        </div>
+                        <div class="grisDiv">
+                            <h2>Featured</h2>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Guides Database</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Events Guides</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Reroll Guide</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="grisDiv">
+                            <h2>Rankings</h2>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">5 Star Tier List</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">4 Star Tier List</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">1-3 Star Tier List</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Reroll Tier List</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="grisDiv">
+                            <h2>Servants</h2>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">All Servants</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Servants Stats</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Servant Availability</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Servant Alignments</a>
+                                </li><li class="liStyle">
+                                    <a class="listCol" href="">Servants by Instant Death Rate</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="grisDiv">
+                            <h2>Gameplay</h2>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Ascension Materials</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Craft Essences</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Mystic Codes</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="grisDiv">
+                            <h2>Tools</h2>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Servant Planner</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Summon Simulator</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">FP Summon Simulator</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Command Chain Calculator</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">NP Refund Calculator (Beta)</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Strongest NP</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">EXP Calculator</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="grisDiv">
+                            <h2>Database</h2>
+                        </div>
+                        <div class="blancoGris">
+                            <h3>Singularities</h3>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Camelot</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Babylonia</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Solomon</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Shinjuku</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="blancoGris">
+                            <h3>Quests</h3>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Daily Quests</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Event Quests</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Free Quests</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Interlude Quests</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Main Quests</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="blancoGris">
+                            <h3>Manga</h3>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Even More Learning with Manga!</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Fate/GUDAGUDA Order</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Learning with Manga!</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">More Learning with Manga!</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="blancoGris">
+                            <h3>Others</h3>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Enemies</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Experience Table</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="blancoGris">
+                            <h3>Skills</h3>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Class Skills</a>
+                                </li>
+                                <li class="liStyle">
+                                    <a class="listCol" href="">Servants Skills</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="borderCenter">
+                        <div class="azulGris">
+                            <h2 class="whiteStrong">GamePress</h2>
+                        </div>
+                        <div class="conteUno">
+                            <div class="conteUnoInside" >
+                                <h3 class="h3Azul">Feature</h3>
+                                <h3>Fate/EXTRA CCC x Fate/Grand Order EX Special Event: Abyssal Cyber Paradise, SE.RA.PH!</h3>
+                            </div>
+                        </div>
+                        <div class="conteDos">
+                            <h1>Lancelot (Saber)</h1>
+                            <span>Last Updated: April, 30 2019 |  Submit Feedback or Error</span>
+                        </div>
+                        <div class="conte3">
+                            <div class="conteTres">
+                                <button type="button" class="btn btn-default btn-block btn-azul-block">Start Discussion!</button>
+                            </div>
+                            <div class="conteDos" style="padding:0 20px;">
+                                <h3>Saberlot vs Yagyu</h3>
+                                <h5>5 weeks ago</h5>
+                            </div><div class="conteDos" style="padding:0 20px;">
+                                <h3>Is a grailed lvl 90 saberlot better than other 5* sabers?</h3>
+                                <h5>8 weeks 2 days ago</h5>
+                            </div>
+                            <div class="conteTres">
+                                <button type="button" class="btn btn-default btn-block btn-azul-block">See All</button>
+                            </div>
+                        </div>
+                        <div class="conteAll">
+                            <div class="indice">
+                                <div class="azulGris">
+                                    <h2 class="whiteStrong">Table of Contents</h2>
+                                </div>
+                                <div class="row conteDos">
+                                    <div class="col-lg-4 col-md-12 conte3 text-center">
+                                        <button type="button" class="btn btn-default btn-block btn-azul-block buttonAncho">Status</button>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 conte3 text-center">
+                                        <button type="button" class="btn btn-default btn-block btn-azul-block buttonAncho">Analysis</button>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 conte3 text-center">
+                                        <button type="button" class="btn btn-default btn-block btn-azul-block buttonAncho">Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="indice">
+                                <div class="azulGris">
+                                    <h2 class="whiteStrong">Tier</h2>
+                                </div>
+                                <div class="conteDos">
+                                    <div class="row">
+                                        <div class="col-lg-1 col-md-2 col-sm-5">
+                                            <img src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/saber.png" alt="Clase Saber" class="asideImg">
+                                        </div>
+                                        <div class="col-lg-7 col-md-5 col-sm-2">
+                                            <h3 class="asideImg">Saber</h3>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-5">
+                                            <img src="/imagenes/deber1/barraI/estrellas.jpg" class="floatRigth asideImg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="perfil">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 conteDos">
+                                                <img src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/1213.jpg" alt="">
+                                            </div>
+                                            <div class="col-lg-1 col-md-1 col-sm-1 conteDos"></div>
+
+                                            <div class="col-lg-6 col-md-6 col-sm-6 conteDos">
+                                                <div class="conteDos">
+                                                    <div class="row">
+                                                        <div class="col-lg-2 col-md-2 col-sm-2">
+                                                            <img src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Command_Card_Quick.png" alt="">
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2">
+                                                            <img src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Command_Card_Arts_0.png" alt="">
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2">
+                                                            <img src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Command_Card_Arts_0.png" alt="">
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2">
+                                                            <img src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Command_Card_Buster.png" alt="">
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2">
+                                                            <img src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Command_Card_Buster.png" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div>
+
+                                                    </div>
+                                                    <div class="row pad10">
+                                                        <div class="col-lg-2 col-md-2 col-sm-2 text-center conteTres marginzero">
+                                                            <img class="margin0" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/quick.png" alt="">
+                                                            <h4 class="text-center">3</h4>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2 conteTres marginzero" >
+                                                            <img class="margin0" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/arts.png" alt="">
+                                                            <h4>2</h4>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2 conteTres marginzero">
+                                                            <img class="margin0" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/buster.png" alt="">
+                                                            <h4>4</h4>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2 conteTres marginzero">
+                                                            <img class="margin0" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/extra.png" alt="">
+                                                            <h4>5</h4>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-2 conteTres marginzero">
+                                                            <img class="margin0" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Item-Upgrade-NP.png" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="conteDos">
+                                                        <table class="">
+                                                            <tr>
+                                                                <th class="bordeAll blackStrong">
+                                                                    <b>Attribute</b>
+                                                                </th>
+                                                                <th class="borderAllP">
+                                                                    <a href="">Earth</a>
+                                                                </th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="bordeAll blackStrong">
+                                                                    <b>Alignment</b>
+                                                                </th>
+                                                                <th class="borderAllP">
+                                                                    <a href="">Lawful Good</a>
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                            <button type="button" class="btn btn-primary btn-block">Stage 1</button>
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                            <button type="button" class="btn btn-default btn-block">Stage 2</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                            <button type="button" class="btn btn-default btn-block">Stage 3</button>
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                                            <button type="button" class="btn btn-default btn-block">Stage 4</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                                            <button type="button" class="btn btn-default btn-block">April Fool's</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="indice">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-12 col-sm-12">
+                    <div class="colborder">
+                        <div class="azulGris">
+                            <h2 class="whiteStrong">Popular Pages Today</h2>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/5-Star-Tier-List2.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>5 Star Tier List</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/4-Star-Tier-List2.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>4 Star Tier List</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/servants2(1).png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Servants</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/1-3-Star-Tier-List2.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>1-3 Star Tier List</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/c.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Summon Simulator</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Servant-Planner2(1).png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Servant Planner</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/20190521 Hunting Banner Resize(1).png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Hunting Quest Farm</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img width="80" height="40" class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Hunting-Quests.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Hunting Quest Part 3</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/20190515 Rank Up 6 Resize(1).png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Servant Rank Up </b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img width="80" height="40" class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Strongest-NP-VS-Saber.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Strongest NP</b></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="conteDos">
+                            <button type="button" class="btn btn-default btn-azul-block btn-block">See All</button>
+                        </div>
+                        <div class="azulGris">
+                            <h3 class="whiteStrong">Popular Servants Today</h3>
+                        </div>
+                        <div class="blanquito">
+                            <ul style="list-style: none">
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Icon_Servant_144.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Quetzalcoatl</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Icon_Servant_142.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Ishtar</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Icon_Servant_112.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Shuten-Douji</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Ibarakiicon.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Ibaraki-Douji</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/230_Yu Miaoyi_Icon.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Yu Miaoyi</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Icon_Servant_166.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>BB</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/059 Jeanne d'Arc icon.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Jeanne D' Arc</b></a>
+                                </li>
+                                <li class="liStyle">
+                                    <img class="listCol" src="/Lancelot (Saber) _ Fate Grand Order Wiki - GamePress_files/Icon_Servant_153.png" alt="">
+                                    <a class="sizeF asideImg" href=""><b>Musashi</b></a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>

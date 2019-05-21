@@ -23,6 +23,10 @@ import * as Joi from '@hapi/joi';
 
 @Controller('api')
 export class AppController {
+
+  arregloUsuarios = [];
+
+
     constructor(private readonly appService: AppService) {}
 
     @Get('/hello-world')
@@ -401,6 +405,17 @@ export class AppController {
 
     });
   }
+
+  @Get('deber')
+  deber(
+    @Response() res
+  ){
+      return res.render('deberes/deber1',{
+
+      });
+  }
+
+
 
 
 /*
