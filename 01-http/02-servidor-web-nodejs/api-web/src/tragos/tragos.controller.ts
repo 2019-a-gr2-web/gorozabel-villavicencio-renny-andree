@@ -1,1 +1,20 @@
-import {Controller} from "@nestjs/common";
+import { Controller, Get, Res } from '@nestjs/common';
+import { TragosService } from './tragos.service';
+
+@Controller('api/traguito')
+export class TragosController{
+
+  constructor(private readonly _tragosServices:TragosService){
+
+  }
+
+  @Get('lista')
+  listarTragos(
+    @Res() res
+  ){
+    const arregloTragos = this._tragosServices.bddTragos;
+    res.render('tragos/lista-tragos',{
+      arregloTragos:arregloTragos
+    })
+  }
+}

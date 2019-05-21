@@ -5,5 +5,4 @@ export interface Trago{
   gradosAlcohol:Number
   fechaCaducidad:Date
   precio:Number
-
 }
