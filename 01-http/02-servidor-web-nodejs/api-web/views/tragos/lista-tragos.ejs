@@ -1,0 +1,37 @@
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Grados</th>
+        <th>Precio</th>
+        <th>Fecha de Caducidad</th>
+        <th>Acciones</th>
+    </tr>
+    <% arregloTragos.forEach((trago) =>{ %>
+    <tr>
+        <td>
+            <%=trago.nombre%>
+        </td>
+        <td>
+            <%=trago.tipo%>
+        </td>
+        <td>
+            <%=trago.gradosAlcohol%>
+        </td>
+        <td>
+            <%=trago.precio%>
+        </td>
+        <td>
+            <%=trago.fechaCaducidad%>
+        </td>
+        <td>
+             <button type="button">
+                 Editar
+             </button>
+            <button type="button">
+                Eliminar
+            </button>
+        </td>
+    </tr>
+    <% }); %>
+</table>
