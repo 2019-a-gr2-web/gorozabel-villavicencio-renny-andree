@@ -1,0 +1,47 @@
+
+
+<h1>Formulario de Creación</h1>
+<p>Crear un nuevo Trago</p>
+<form action="crear" method="post">
+    <label for="nombreId">Nombre</label>
+    <input type="text" id="nombreId" name="nombre">
+    <br>
+    <label for="tipo">Tipo de Trago</label>
+    <select name="tipo" id="tipo">
+        <option value="Ron">Ronsito</option>
+        <option value="Vodka">Vodkita</option>
+        <option value="Whiskey">Whiskeysito</option>
+        <option value="Tequila">Tequilita</option>
+        <option value="Puntas" selected>Currinchu</option>
+        <option value="Cerveza">Biela</option>
+    </select>
+    <br>
+    <label for="gradosId">Grados de Alcohol</label>
+    <input type="number"
+           step="0.1"
+           id="gradosId"
+           name="gradosAlcohol"
+           min="1"
+           max="60">
+    <br>
+    <label for="fechaCaducidad">Fecha Caducidad</label>
+    <input type="date"
+           id="fechaCaducidad"
+           name="fechaCaducidad">
+    <br>
+    <label for="precioId">Precio</label>
+    <input type="number"
+           step="0.1"
+           id="precioId"
+           name="precio"
+           min="0">
+
+    <br>
+
+   <!-- <button type="reset">Reset</button>
+    <button type="submit">Submit</button> -->
+    <a href="lista">
+        <button type="button">Cancelar</button>
+    </a>
+    <button>Enviar Información</button>
+</form>
