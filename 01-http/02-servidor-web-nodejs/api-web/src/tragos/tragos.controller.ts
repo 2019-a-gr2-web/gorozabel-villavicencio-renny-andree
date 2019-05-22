@@ -53,10 +53,10 @@ export class TragosController{
   @Post('eliminar')
   eliminarTraguito(
     @Res() res,
-    @Body() traguito
+    @Body('indice') indice:String
   ){
-    this._tragosServices.eliminarPorId(traguito.indice);
-    console.log(traguito.indice);
+    console.log("Indice: ",indice);
+    this._tragosServices.eliminarPorId(Number(indice));
     res.redirect('lista')
   }
 
