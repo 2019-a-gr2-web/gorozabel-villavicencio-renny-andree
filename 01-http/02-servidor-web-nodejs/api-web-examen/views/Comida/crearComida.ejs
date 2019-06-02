@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Crear Comida</title>
+    <meta charset ="UTF-8">
+    <link rel="icon"
+          href="/Imagenes/dropbox.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- header 1-6-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+
+    <a class="navbar-brand" href="/">Examen Web GR2</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav m-auto">
+            <li class="nav-item active" style="padding-right: 60px;">
+                <a>
+                        <span>
+                           <%= nombre%>
+                        </span>
+
+                </a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto" id="navbarSupportedContent">
+            <li id="btn-salir" class="nav-item active">
+                <form action="/examen/borrarCookie" method="POST">
+                    <button type="submit" class="btn btn-primary"style="background-color: lightblue">Salir</button>
+                </form>
+
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="mt-5 d-flex justify-content-center">
+        <form action="/examen/crearComida" method="post">
+            <h1>Formulario de Creación de Comidas</h1>
+            <p>Crea una nueva Comida.</p>
+            <form action="/examen/crearComida"
+                  method="post">
+                <label for="nombreId">Nombre Plato</label>
+                <input id="nombreComidaId" name="nombrePlato" type="text">
+                <br>
+                <label for="descripcionPlatoId">Descripcion Plato</label>
+                <input id="descripcionPlatoId" name="descripcionPlato" type="text">
+                <br>
+                <label for="descripcionPreparacionId">Preparacion</label>
+                <input id="descripcionPreparacionId" name="descripcionPreparacion" type="text">
+                <br>
+                <label for="NacionalidadId">Nacionalidad</label>
+                <input id="NacionalidadId" name="nacionalidad" type="text">
+                <br>
+                <label for="numeroPersonasId"># Personas</label>
+                <input id="numeroPersonasId" name="numeroPersonas" type="number" step="1">
+                <br>
+                <label for="picanteId">Picantes</label>
+                <input id="picanteId" name="picante" type="checkbox">
+                <br>
+                <a href="/examen/listaComidas">
+                    <button type="button">Cancelar</button>
+                </a>
+                <button>Enviar Informacion</button>
+            </form>
+        </form>
+
+        <br>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>
