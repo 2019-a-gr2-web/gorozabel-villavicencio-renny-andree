@@ -15,10 +15,10 @@ export class IngredientesService{
     this.bddIngredientes.push(nuevoIngrediente);
     return nuevoIngrediente
   }
-  eliminarPorId(id:number):Ingredientes[]{
+  eliminarPorId(id:number,idPadre:number):Ingredientes[]{
     const indice = this.bddIngredientes.filter(
       (ingrediente) => {
-        if(ingrediente.idIngrediente===id) return ingrediente.idIngrediente;
+        return ingrediente.idIngrediente===id && ingrediente.comidaId===idPadre;
       }
     );
     // @ts-ignore

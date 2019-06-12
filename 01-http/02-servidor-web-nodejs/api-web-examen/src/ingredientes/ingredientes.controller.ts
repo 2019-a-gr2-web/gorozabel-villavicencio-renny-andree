@@ -28,7 +28,7 @@ export class IngredientesController {
     id= Number(params.id);
     const cookieSeg = request.signedCookies;
     if (cookieSeg.nombreUsuario) {
-      return response.render('ingredientes/gestionarIngredientes',{id:id,arregloingredientes:arregloIngredientesBusqueda,nombre:cookieSeg.nombreUsuario})
+      return response.render('ingredientes/gestionarIngredientes',{id:id,arregloIngredientes:arregloIngredientesBusqueda,nombre:cookieSeg.nombreUsuario})
     }
     else{
       return response.redirect('/examen/inicioSesion');
@@ -86,7 +86,7 @@ export class IngredientesController {
   eliminaringrediente(@Param() params,@Res() res,  @Body('comidaIdIngre') idComida: number,
                    @Body('idIngrediente') idIngrediente: number, @Request() request) {
     const cookieSeg = request.signedCookies;
-    this.ingredientesService.eliminarPorId(Number(idIngrediente));
+    this.ingredientesService.eliminarPorId(Number(idIngrediente),Number(idComida));
     if (cookieSeg.nombreUsuario) {
       res.redirect('/examen/comida/gestionaringredientes/'+id);
     }
