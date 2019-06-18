@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { TragosEntity } from '../tragos/tragos.entity';
 
 
 @Entity('db_fiesta')
@@ -7,5 +8,10 @@ export class FiestaEntity{
   id_fiesta:number;
 
   @Column()
-  nombre:string
+  nombre:string;
+
+  @ManyToOne(type=>TragosEntity,
+    trago=>trago.fiestas)
+  tragoId:TragosEntity;
+
 }
