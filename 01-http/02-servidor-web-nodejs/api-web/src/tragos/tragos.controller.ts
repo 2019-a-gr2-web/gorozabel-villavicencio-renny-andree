@@ -3,6 +3,7 @@ import { TragosService } from './tragos.service';
 import { Trago } from './interfaces/trago';
 import { type } from 'os';
 import { typeIsOrHasBaseType } from 'tslint/lib/language/typeUtils';
+import { TragosEntity } from './tragos.entity';
 
 @Controller('api/traguito')
 export class TragosController{
@@ -12,13 +13,20 @@ export class TragosController{
   }
 
   @Get('lista')
-  listarTragos(
+  async listarTragos(
     @Res() res
   ){
-    const arregloTragos = this._tragosServices.bddTragos;
-    res.render('tragos/lista-tragos',{
-      arregloTragos:arregloTragos
-    })
+    try{
+      const arregloTragos = await this._tragosServices.buscar();
+      res.render('tragos/lista-tragos',{
+        arregloTragos:arregloTragos
+      })
+    }catch(e){
+      res.status(500);
+      res.send({mensaje:'Error',codigo:500});
+    }
+
+
   }
   @Get('crear')
   crearTrago(
@@ -28,9 +36,9 @@ export class TragosController{
     res.render('tragos/crear-editar')
   }
   @Post('crear')
-  crearTragoPost(
+  async crearTragoPost(
     @Res() res,
-    @Body() trago:Trago,
+    @Body() trago:TragosEntity,
     /*@Body('nombre') nombre:String,
     @Body('tipo') tipo:String,
     @Body('gradosAlcohol') gradosAlcohol:Number,
@@ -41,8 +49,17 @@ export class TragosController{
     trago.precio = Number(trago.precio);
     trago.fechaCaducidad = new Date(trago.fechaCaducidad);
     console.log('Trago: ',trago, typeof trago);
-    this._tragosServices.crear(trago);
-    res.redirect('lista')
+
+    try{
+      const respuestaCrear = await this._tragosServices.crear(trago); //Promesa
+      console.log('RESPUESTA: ', respuestaCrear);
+      res.redirect('lista')
+    }catch(e){
+      res.status(500);
+      res.send({mensaje:'Error',codigo:500});
+    }
+
+
   /*  console.log('Nombre: ',nombre,typeof nombre);
     console.log('Tipo: ',tipo,typeof tipo);
     console.log('Grados: ',gradosAlcohol,typeof gradosAlcohol);

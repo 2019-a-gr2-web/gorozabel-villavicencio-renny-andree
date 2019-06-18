@@ -1,4 +1,3 @@
-import {Repository} from "typeorm";
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TragosEntity } from './tragos.entity';
@@ -12,36 +11,45 @@ export class TragosService {
 
   constructor(@InjectRepository(TragosEntity)
               private readonly _tragosRepository: Repository<TragosEntity>,){
-    const traguito:Trago = {
+    const traguito:TragosEntity = {
+      id:this.recnum,
       nombre:'Pilsener',
       gradosAlcohol:4.3,
-      fechaCaducidad:new Date(2018,5,10),
+      fechaCaducidad: new Date(2019,5,10),
       precio:1.75,
       tipo:'Cerveza'
     };
 
     const objetoEntidad = this._tragosRepository.create(traguito);
 
-    //this._tragosRepository.insert(objetoEntidad);
-    this._tragosRepository.save(objetoEntidad)
+    this._tragosRepository
+      .save(objetoEntidad)
       .then(
         (datos)=>{
-          console.log('Dato Creado:',datos)
+          console.log('Dato creado:', datos);
         }
-      ).catch(
-      (error)=>{
-        console.log('Error: ',error);
-      }
-    );     //Este sirve paramuchos UHHHH
-
+      )
+      .catch(
+        (error)=>{
+          console.error('Error:', error);
+        }
+      );
     this.crear(traguito);
   }
 
-  crear(nuevoTrago:Trago):Trago{
-    nuevoTrago.id=this.recnum;
+  buscar(parametrosBusqueda?):Promise<Trago[]>{
+    return this._tragosRepository.find(parametrosBusqueda);
+  }
+
+  crear(nuevoTrago:TragosEntity):Promise<Trago>{
+   /* nuevoTrago.id=this.recnum;
     this.recnum++;
     this.bddTragos.push(nuevoTrago);
-    return nuevoTrago
+    return nuevoTrago*/
+   console.log(nuevoTrago);
+    const objetoEntidad = this._tragosRepository
+     .create(nuevoTrago);
+    return this._tragosRepository.save(objetoEntidad);
   }
   buscarPorId(id:number):Trago{
     return this.bddTragos.find(
