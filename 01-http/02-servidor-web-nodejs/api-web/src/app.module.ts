@@ -23,6 +23,7 @@ import { FiestaEntity } from './fiesta/fiesta.entity';
         FiestaEntity
       ],
       synchronize: true,
+      dropSchema:false,
       insecureAuth : true
     }),
     TragosModule,
