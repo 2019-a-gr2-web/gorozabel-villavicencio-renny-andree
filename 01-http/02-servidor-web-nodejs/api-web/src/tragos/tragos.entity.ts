@@ -13,7 +13,7 @@ export class TragosEntity {
     length: 70,
     name: 'nombre_trago',
   })
-  nombre: String;
+  nombre: string;
 
   @Column({
     type: 'varchar',
@@ -31,6 +31,7 @@ export class TragosEntity {
   @Column({
     type: 'date',
     name: 'fecha_caducidad',
+    default: '2019-09-19'
   })
   fechaCaducidad: Date;
 
@@ -39,6 +40,7 @@ export class TragosEntity {
     precision: 10,
     scale:2,
     name: 'precio',
+    nullable:true
   })
   precio: number;
 
