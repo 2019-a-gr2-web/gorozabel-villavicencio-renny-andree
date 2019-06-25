@@ -10,8 +10,8 @@ export class TragosService {
   recnum=1;
 
   constructor(@InjectRepository(TragosEntity)
-              private readonly _tragosRepository: Repository<TragosEntity>,){
-    const traguito:TragosEntity = {
+              private readonly _tragosRepository: Repository<TragosEntity>){
+   /* const traguito:TragosEntity = {
       id:this.recnum,
       nombre:'Pilsener',
       gradosAlcohol:4.3,
@@ -34,7 +34,7 @@ export class TragosService {
           console.error('Error:', error);
         }
       );
-    this.crear(traguito);
+    this.crear(traguito);*/
   }
 
   buscar(parametrosBusqueda?):Promise<Trago[]>{

@@ -1,16 +1,16 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Headers,
-    HttpCode,
-    Param,
-    Post,
-    Put,
-    Query,
-    Request,
-    Response
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Headers,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  Query,
+  Request, Res,
+  Response, Session,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import * as Joi from '@hapi/joi';
@@ -28,6 +28,66 @@ export class AppController {
 
 
     constructor(private readonly appService: AppService) {}
+
+  @Get('session')
+  session(
+    @Query('nombre') nombre,
+    @Session() session
+  ){
+      session.autenticado=true;
+      session.nombreUsuario=nombre;
+      session.roles="Administrador";
+      session.usuarioId=123456;
+      console.log(session);
+
+    return 'ok';
+  }
+
+  @Get('login')
+  loginVista(
+    @Res() res
+  ){
+      res.render('login');
+  }
+
+  @Post('login')
+  login(
+    @Body() usuario,
+    @Res() res,
+    @Session() session
+  ){
+      if(usuario.username === 'renny' && usuario.password === '12345678'){
+        session.nombreUsuario=usuario.username;
+        res.redirect('protegida');
+      }else{
+        res.status(400);
+        res.send({mensaje:'Error Login',error:400});
+      }
+  }
+
+  @Get('/protegida')
+  loginProtegida(
+    @Res() res,
+    @Session() session
+  ){
+      if(session.username){
+        res.render('protegida',{
+          nombre:session.nombreUsuario
+        })
+      }else
+        res.redirect('login');
+  }
+
+  @Get('logout')
+  logout(
+    @Res() res,
+    @Session() session
+  ){
+      session.usuarioNombre=undefined;
+      session.destroy();
+      res.redirect('/api/login');
+  }
+
 
     @Get('/hello-world')
     getHello(): string {
