@@ -509,7 +509,7 @@ class usuario{
   private metodoPrivado(){}
   protected metodoProtegido(){}
 }
-*/
+
 
 const json =[
     {
@@ -711,8 +711,7 @@ arregloNumerosSome.some(
 
 
 )
-*/
-// 7 Sumen todos los valores
+
 
 const arregloNumeroReduce=[1,2,3,4,5,6];
 const valorDondeEmpiezaCalculo=0;
@@ -776,3 +775,4 @@ const respMas10 = arregloMas10.map(
       return valorActual > 30;
   }
 );
+*/
