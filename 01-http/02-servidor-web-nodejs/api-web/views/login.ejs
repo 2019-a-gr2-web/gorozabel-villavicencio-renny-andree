@@ -1,0 +1,26 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+</head>
+<body>
+
+<!-- /login     GET -> Login -->
+<!-- /login    POST -> Login -->
+<!-- /logout    GET -> LogOut -->
+<!-- /protegida GET -> Login!! -->
+    <form action="/api/login" method="POST">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username">
+
+        <label for="password"></label>
+        <input type="password" id="password" name="password">
+
+        <button>LogIn</button>
+    </form>
+
+</body>
+</html>

@@ -10,8 +10,8 @@ export class TragosService {
   recnum=1;
 
   constructor(@InjectRepository(TragosEntity)
-              private readonly _tragosRepository: Repository<TragosEntity>,){
-    const traguito:TragosEntity = {
+              private readonly _tragosRepository: Repository<TragosEntity>){
+   /* const traguito:TragosEntity = {
       id:this.recnum,
       nombre:'Pilsener',
       gradosAlcohol:4.3,
@@ -34,11 +34,15 @@ export class TragosService {
           console.error('Error:', error);
         }
       );
-    this.crear(traguito);
+    this.crear(traguito);*/
   }
 
   buscar(parametrosBusqueda?):Promise<Trago[]>{
     return this._tragosRepository.find(parametrosBusqueda);
+  }
+
+  buscarId(idTrago: number): Promise<TragosEntity> {
+    return this._tragosRepository.findOne(idTrago);
   }
 
   crear(nuevoTrago:TragosEntity):Promise<Trago>{
@@ -51,18 +55,28 @@ export class TragosService {
      .create(nuevoTrago);
     return this._tragosRepository.save(objetoEntidad);
   }
+
   buscarPorId(id:number):Trago{
     return this.bddTragos.find(
       (trago)=>{
         return (trago.id === id)
     })
   }
+
   buscarPorNombre(nombre: string):Trago{
     return this.bddTragos.find(
       (trago) => {
         return trago.nombre.toUpperCase().includes(nombre.toUpperCase());
       }
     );
+  }
+
+  eliminarId(id: number): Promise<TragosEntity>{
+    const tragoaEliminar = this._tragosRepository
+      .create({
+        id: id
+      });
+    return this._tragosRepository.remove(tragoaEliminar)
   }
 
   eliminarPorId(id:Number):Trago[]{
@@ -74,13 +88,19 @@ export class TragosService {
     this.bddTragos.splice(indice,1);
     return this.bddTragos;
   }
+  actualizar(idTrago: number,
+             nuevoTrago: TragosEntity): Promise<TragosEntity> {
+    nuevoTrago.id = idTrago;
+    const tragoEntity = this._tragosRepository.create(nuevoTrago);
+    return this._tragosRepository.save(tragoEntity);
+  }
   actualizarPorId(tragoActualizado:Trago,id:number):Trago[]{
     const indice = this.bddTragos.findIndex(
       (trago) =>{
         return trago.id === id
       }
     );
-    tragoActualizado.id = this.bddTragos[indice].id
+    tragoActualizado.id = this.bddTragos[indice].id;
     this.bddTragos[indice] = tragoActualizado;
     return this.bddTragos;
   }
