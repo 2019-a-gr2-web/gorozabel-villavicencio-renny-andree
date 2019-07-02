@@ -6,10 +6,11 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import { TragosEntity } from './tragos/tragos.entity';
 import { DistribuidorEntity } from './distribuidor/distribuidor.entity';
 import { FiestaEntity } from './fiesta/fiesta.entity';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
+    /*TypeOrmModule.forRoot({
       name:'default',   // Nombre de la cadena de conexion por defecto de TYPEORM
       type: 'mysql',
       host: 'localhost',
@@ -26,7 +27,8 @@ import { FiestaEntity } from './fiesta/fiesta.entity';
       dropSchema:false,
       insecureAuth : true
     }),
-    TragosModule,
+    TragosModule,*/
+    ChatModule
   ],
   controllers: [AppController],
   providers: [AppService],
