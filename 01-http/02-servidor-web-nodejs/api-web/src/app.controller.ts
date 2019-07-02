@@ -56,16 +56,18 @@ export class AppController {
     @Res() res,
     @Session() session
   ){
-      if(usuario.username === 'renny' && usuario.password === '12345678'){
+      console.log(usuario);
+      if(usuario.username==='renny' && usuario.password === '12345678'){
         session.nombreUsuario=usuario.username;
-        res.redirect('protegida');
+        console.log(session.nombreUsuario);
+        res.redirect('/api/protegida');
       }else{
         res.status(400);
         res.send({mensaje:'Error Login',error:400});
       }
   }
 
-  @Get('/protegida')
+  @Get('protegida')
   loginProtegida(
     @Res() res,
     @Session() session
@@ -75,7 +77,7 @@ export class AppController {
           nombre:session.nombreUsuario
         })
       }else
-        res.redirect('login');
+        res.redirect('/api/login');
   }
 
   @Get('logout')

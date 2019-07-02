@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
 import { TragosService } from './tragos.service';
 import { Trago } from './interfaces/trago';
 import { type } from 'os';
@@ -15,21 +15,42 @@ export class TragosController{
   }
 
   @Get('lista')
-  async listarTragos(
-    @Res() res
-  ){
-    try{
-      const arregloTragos = await this._tragosServices.buscar();
-      res.render('tragos/lista-tragos',{
-        arregloTragos:arregloTragos
-      })
-    }catch(e){
-      res.status(500);
-      res.send({mensaje:'Error',codigo:500});
-    }
-
-
+  async listarTragos(@Res() res) {
+    const arregloTragos = await this._tragosServices.buscar();
+    res.render('tragos/lista-tragos', {arregloTragos: arregloTragos})
   }
+
+  @Get('editar/:id')
+  async actualizarTrago(
+    @Param('id') id: string,
+    @Res() response,
+    @Query('mensaje') mensaje:string
+  ) {
+    console.log(Number(id));
+    const tragoAActualizar = await this
+      ._tragosServices
+      .buscarId(Number(id));
+    console.log('trago', tragoAActualizar.nombre);
+
+    return response.render(
+      'tragos/crear-editar',
+      {mensaje: mensaje,
+        trago: tragoAActualizar,
+      crear:false})
+  }
+
+
+  @Post('actualizar-trago/:id')
+  async actualizarTragoForm(
+    @Param('id') id: string,
+    @Res() response,
+    @Body() trago: TragosEntity
+  ) {
+    trago.id = +id;
+    await this._tragosServices.actualizar(+id, trago);
+    response.redirect('/api/traguito/lista');
+  }
+
   @Get('crear')
   crearTrago(
     @Res() res,
@@ -37,10 +58,11 @@ export class TragosController{
   ){
     const arregloTragos = this._tragosServices.bddTragos;
     res.render('tragos/crear-editar',{
-      mensaje:mensaje
+      mensaje:mensaje,
+      crear:true
     })
   }
-  @Post('crear')
+  @Post('crear-trago')
   async crearTragoPost(
     @Res() res,
     @Body() trago:TragosEntity,
@@ -90,13 +112,19 @@ export class TragosController{
   }
 
   @Post('eliminar')
-  eliminarTraguito(
+  async eliminarTraguito(
     @Res() res,
     @Body('indice') indice:String
   ){
     console.log("Indice: ",indice);
-    this._tragosServices.eliminarPorId(Number(indice));
-    res.redirect('lista')
+    try{
+      await this._tragosServices.eliminarId(Number(indice));
+      res.redirect('lista')
+    }catch(e){
+      console.error(e);
+      res.status(500);
+      res.send({mensaje: 'Error', codigo: 500});
+    }
   }
 
 }

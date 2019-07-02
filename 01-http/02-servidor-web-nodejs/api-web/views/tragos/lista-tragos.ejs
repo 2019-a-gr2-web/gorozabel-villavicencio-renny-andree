@@ -38,14 +38,13 @@
             <%=trago.fechaCaducidad%>
         </td>
         <td>
-            <form action="eliminar" method="post">
-                <input type="text" value="<%=trago.id%>" hidden name="indice">
-                <button type="button">
-                    Editar
-                </button>
-                <button type="submit">
-                    Eliminar
-                </button>
+            <a href="/api/traguito/editar/<%= trago.id %>">
+                <input id="id" name="id" type="number" value="<%= trago.id %>"  hidden >
+                <button>Editar</button>
+            </a>
+            <form action="/api/traguito/eliminar" method="post">
+                <input id="id" name="indice" type="number" value="<%= trago.id %>"  hidden >
+                <button>Eliminar</button>
             </form>
 
         </td>
