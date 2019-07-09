@@ -93,10 +93,10 @@ export class TragosController{
         res.redirect('/api/traguito/crear?mensaje=Tienes un error en el formulario');
 
       } else {
-        const respuestaCrear = await this._tragosServices
-          .crear(trago); // Promesa
-        console.log('RESPUESTA: ', respuestaCrear);
-        res.redirect('/api/traguito/lista');
+          const respuestaCrear = await this._tragosServices
+            .crear(trago); // Promesa
+          console.log('RESPUESTA: ', respuestaCrear);
+          res.redirect('/api/traguito/lista');
       }
     }catch(e){
       res.status(500);
