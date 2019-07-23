@@ -7,6 +7,7 @@ import { TragosEntity } from './tragos/tragos.entity';
 import { DistribuidorEntity } from './distribuidor/distribuidor.entity';
 import { FiestaEntity } from './fiesta/fiesta.entity';
 import { ChatModule } from './chat/chat.module';
+import { AhorcadoModule } from './ahorcado/ahorcado.module';
 
 @Module({
   imports: [
@@ -27,8 +28,9 @@ import { ChatModule } from './chat/chat.module';
       dropSchema:false,
       insecureAuth : true
     }),
-    TragosModule,*/
-    ChatModule
+    TragosModule,
+    ChatModule*/
+    AhorcadoModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -18,4 +18,10 @@ export class ChatGateway{
     client.broadcast.emit('saludaron',data);
     return data.nombre;
   }
+
+  @SubscribeMessage('trivia')
+  trivia(client:Client | any, data:any){
+    console.log("Te fuiste");
+    client.broadcast.emit("respuesta",data)
+  }
 }

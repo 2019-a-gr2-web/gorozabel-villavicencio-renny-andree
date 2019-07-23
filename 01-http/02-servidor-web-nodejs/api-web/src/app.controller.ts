@@ -8,12 +8,13 @@ import {
   Param,
   Post,
   Put,
-  Query,
+  Query, Render,
   Request, Res,
-  Response, Session,
+  Response, Session, UploadedFile, UseInterceptors,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import * as Joi from '@hapi/joi';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 // const Joi = require('@hapi/joi');
 // http.//192.168.1.10:3000/ruta
@@ -28,6 +29,45 @@ export class AppController {
 
 
     constructor(private readonly appService: AppService) {}
+
+    @Get('subirArchivo/:idTrago')
+    @Render('archivo')
+    subirArchivo(
+      @Param('idTrago') idTrago
+    ){
+      return {
+        idTrago:idTrago
+      }
+    }
+
+    @Post("subirArchivo/:idTrago")
+    @UseInterceptors(
+      FileInterceptor(
+        'imagen',
+        {
+          dest:__dirname+'/../archivos',
+
+
+        }
+      )
+    )
+    subirArchivoPost(
+      @Param('idTrago') idTrago,
+      @UploadedFile() archivo
+    ){
+      console.log(archivo);
+      return {mensaje:'ok'};
+    }
+
+    @Get('descargarArchivo/:idTrago')
+    descargarArchivo(
+      @Res() res,
+      @Param('idTrago') idTrago
+    ){
+      const originalname="meme.jpg";
+      const path="C:\\Users\\RAGV\\WebstormProjects\\Web\\01-http\\02-servidor-web-nodejs\\api-web\\archivos\\0875b302c44921849f255a046eee795b";
+      res.download(path,originalname);
+    }
 
   @Get('session')
   session(
@@ -476,8 +516,6 @@ export class AppController {
 
       });
   }
-
-
 
 
 /*
