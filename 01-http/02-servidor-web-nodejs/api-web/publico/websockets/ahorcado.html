@@ -1,0 +1,223 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>El ahorcado</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+<style>
+    .padT{
+        padding-top: 3%;
+    }
+    .borde{
+        border: 1px black solid;
+    }
+    .letra{
+        width: 35px;
+        height: 50px;
+    }
+    .left{
+        float: left;
+    }
+    #encabezado th{
+        width: 20px;
+    }
+    #cuerpo td{
+        width: 20px;
+    }
+
+</style>
+
+<div class="container">
+    <div class="header padT" id="titulo">
+        <h1>El ahorcado</h1>
+    </div>
+    <div class="game row">
+        <div class="dibujo col-sm-4" id="munieco">
+            <canvas id="mycanvas" class="borde" width="200px" height="500px">
+            </canvas>
+        </div>
+        <div class="juego col-sm-8" id="palabra">
+            <div class="row">
+                <table>
+                    <tr id="encabezado"></tr>
+                    <tr id="cuerpo"></tr>
+                </table>
+            </div>
+            <div id="adivina">
+                <label for="letra">Ingresa una letra o adivina la palabra</label>
+                <input type="text" id="letra" name="letra" class="form-control" onchange="enviar(this)">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="socket.io.js"></script>
+<script>
+  //const url='http://172.31.103.217:3001/websockets';
+  const url='http://localhost:3001/game';
+  const socket = io(url);
+  socket.on(
+    'connect',
+    ()=>{
+      empezar();
+    }
+  );
+  socket.on(
+    'disconnect',
+    ()=>{
+      console.log('Nos desconectamos =(');
+    }
+  );
+
+  socket.on(
+    'respuesta',
+    (datos)=>{
+      if(datos.mensaje){
+        // GANARON
+        const gano = document.createElement("h1");
+        gano.innerText="GANARON!";
+        añadirEtiqueta("titulo",gano);
+        const elementos = document.getElementById("cuerpo").getElementsByTagName("td");
+        const letras = datos.letra.split('');
+        console.log(letras);
+        letras.forEach(
+          (it,indice) => {
+            elementos[indice].innerText = it;
+          }
+        );
+
+      }else if(datos.indices.length > 0){
+        const elementos = document.getElementById("cuerpo").getElementsByTagName("td");
+        console.log("Entro");
+        if(datos.letra!=""){
+          datos.indices.forEach(
+            (it)=>{
+              elementos[it].innerText = datos.letra;
+            }
+          );
+        }
+      }else{
+        console.log("Why");
+        switch (contador) {
+          case 1:
+            dibujarC(110,140,50,0);
+            break;
+          case 2:
+            dibujar(105,190,10,150);
+            break;
+          case 3:
+            dibujarL(110,340,45,470);
+            break;
+          case 4:
+            dibujarL(110,340,155,470);
+            break;
+          case 5:
+            dibujarL(110,190,155,280);
+            break;
+          case 6:
+            dibujarL(110,190,45,280);
+            break;
+          default:
+            break;
+        }
+        if(contador==6){
+          const perdio = document.createElement("h1");
+          perdio.innerText="Perdieron! :c";
+          document.getElementById("letra").setAttribute("disabled",true);
+          añadirEtiqueta("titulo",perdio);
+        }
+        contador++;
+      }
+    }
+  );
+
+  function empezar(){
+    const metodo="empezar";
+    const datos={
+      mensaje:"empezar"
+    };
+    socket.emit(
+      metodo,
+      datos,
+      (respuesta)=>{
+        preparar(respuesta);
+      }
+    )
+  }
+  function preparar(tamanio){
+    for(i=0;i<tamanio;i++){
+      const elemento = document.createElement("th");
+      const elemento2 = document.createElement("td");
+      elemento2.innerText="";
+      elemento.innerText=".";
+      añadirEtiqueta("encabezado",elemento);
+      añadirEtiqueta("cuerpo",elemento2);
+    }
+  }
+
+  function enviar(elemento){
+    const metodo="respuesta";
+    const datos={
+      letra:elemento.value
+    };
+    console.log(datos);
+    elemento.value="";
+    socket.emit(
+      metodo,
+      datos,
+      (respuesta)=>{
+        console.log(respuesta);
+      }
+    );
+  }
+
+
+  function añadirEtiqueta(idEtiqueta,elementoHTML){
+    const etiqueta = document.getElementById(idEtiqueta);
+    etiqueta.appendChild(elementoHTML);
+  }
+</script>
+
+<script>
+    var contador=1;
+    const canv = document.getElementById("mycanvas");
+    const ctx = canv.getContext("2d");
+    ctx.fillStyle="#000";
+    ctx.fillRect(0,15,100,15);
+    ctx.fillRect(100,15,20,75);
+
+    function dibujar(x1,y1,x2,y2){
+      const canv = document.getElementById("mycanvas");
+      const ctx = canv.getContext("2d");
+      ctx.fillStyle="#000";
+      ctx.fillRect(x1,y1,x2,y2);
+    }
+    function dibujarC(x1,y1,x2,y2){
+      var c = document.getElementById("mycanvas");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.lineWidth=10;
+      ctx.arc(x1,y1,x2,y2,2* Math.PI);
+      ctx.stroke();
+    }
+    function dibujarL(x1,y1,x2,y2){
+      var c = document.getElementById("mycanvas");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.lineWidth=10;
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    }
+</script>
+
+
+
+</body>
+</html>

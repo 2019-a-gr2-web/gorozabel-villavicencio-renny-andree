@@ -45,7 +45,9 @@ export class AppController {
       FileInterceptor(
         'imagen',
         {
-          dest:__dirname+'/../archivos'
+          dest:__dirname+'/../archivos',
+
+
         }
       )
     )
