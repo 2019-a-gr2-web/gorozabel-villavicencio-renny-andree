@@ -10,6 +10,7 @@ import { PokemonEntity } from './pokemon/pokemon.entity';
 import { UsuarioModule } from './usuario/usuario.module';
 import { PedidoEntity } from './pedido/pedido.entity';
 import { PedidoModule } from './pedido/pedido.module';
+import { ComunicacionModule } from './comunicacion/comunicacion.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { PedidoModule } from './pedido/pedido.module';
     EntrenadorModule,
     UsuarioModule,
     PokemonModule,
-    PedidoModule
+    PedidoModule,
+    ComunicacionModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -135,7 +135,10 @@
         </div>
     </div>
 
+    <script src="/socket.io.js"></script>
     <script>
+      const url ="http://localhost:3001/pedidos";
+      const socket = io(url);
         var pedido={
           idPedido:""
         };
@@ -355,7 +358,7 @@
               console.log(http.responseText);
               const resp = JSON.parse(http.responseText).idPedido;
               pedido.idPedido = resp
-
+              avisar();
             }
           }
 
@@ -384,6 +387,18 @@
         function añadirEtiqueta(idEtiqueta,elementoHTML){
           const etiqueta = document.getElementById(idEtiqueta);
           etiqueta.appendChild(elementoHTML);
+        }
+
+        function avisar(){
+          const metodo ="avisar";
+          const datos={};
+          socket.emit(
+            metodo,
+            datos,
+            (respuesta) =>{
+              console.log(respuesta);
+            }
+          )
         }
     </script>
 </div>
