@@ -7,13 +7,16 @@ import { PedidoController } from './pedido.controller';
 import { PedidoService } from './pedido.service';
 import { PokemonEntity } from '../pokemon/pokemon.entity';
 import { PokemonService } from '../pokemon/pokemon.service';
+import { UsuarioService } from '../usuario/usuario.service';
+import { UsuarioEntity } from '../usuario/usuario.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature(
       [
         PedidoEntity,
         EntrenadorEntity,
-        PokemonEntity
+        PokemonEntity,
+        UsuarioEntity
       ],
       'default'
     ),
@@ -24,7 +27,8 @@ import { PokemonService } from '../pokemon/pokemon.service';
   providers: [
     PedidoService,
     EntrenadorService,
-    PokemonService
+    PokemonService,
+    UsuarioService,
   ], //Servicios
   exports:[
     PedidoService

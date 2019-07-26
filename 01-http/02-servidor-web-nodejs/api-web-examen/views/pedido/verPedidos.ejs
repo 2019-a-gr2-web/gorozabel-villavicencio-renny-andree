@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<style>
+  table,tr,td,th{
+    border: solid black 1px;
+  }
+</style>
+<head>
+  <title>Pedidos</title>
+  <meta charset ="UTF-8">
+  <link rel="icon"
+        href="/Imagenes/dropbox.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .bgHK{
+      background-image: url("/Imagenes/HK-logo-new.jpg");
+      background-size:cover;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+
+  <a class="navbar-brand" href="/examen/bienvenido">Examen Web GR2</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav m-auto">
+      <li class="nav-item active" style="padding-right: 60px;">
+        <a>
+                        <span>
+                           <%= nombre%>
+                        </span>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto" id="navbarSupportedContent">
+      <li id="btn-salir" class="nav-item active">
+        <form action="/examen/borrarCookie" method="POST">
+          <button type="submit" class="btn btn-primary"style="background-color: lightblue">Salir</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <input type="text" id="idUsuario" value="<%=usuario.idUsuario%>"hidden>
+  <input type="text" id="tipoUsuario" value="<%=usuario.tipoUsuario%>"hidden>
+  <div class="white  row divInicioContainer padTop col-sm-12">
+    <h2>Pedidos</h2>
+      <table class="table white" id="tTabla">
+        <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Direccion</th>
+              <th>Teléfono</th>
+              <th>Identificación</th>
+              <th>Total sin Impuestos</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+        </thead>
+        <tbody id="tCuerpo" >
+
+        </tbody>
+      </table>
+  </div>
+
+</div>
+  <script src="/socket.io.js"></script>
+  <script>
+    const url ="http://localhost:3001/pedidos";
+    const socket = io(url);
+
+    function actualizarTabla(){
+      const idUsuario = document.getElementById('idUsuario').value;
+      const tipoUsuario = document.getElementById('tipoUsuario').value;
+      
+
+      const tabla = document.getElementById('tTabla');
+      const tbody = document.getElementById('tCuerpo');
+      tabla.removeChild(tbody);
+      const tbodyN = document.createElement('tbody');
+      tbodyN.id="tCuerpo";
+
+      const http = new XMLHttpRequest();
+      const url = 'http://localhost:3000/examen/pedidos/todos/'+idUsuario;
+
+      http.onreadystatechange = function(){
+        if(this.readyState === 4 && this.status === 200){
+          const pedidos = JSON.parse(this.responseText);
+          console.log(pedidos);
+          var tr;
+          var th;
+          const arrIndices =[];
+          const arrEstados=[];
+          pedidos.forEach(
+                  (it,ind)=>{
+                    tr = document.createElement('tr');
+                    for(var key in it){
+                      if(key!='idPedido'){
+                        th = document.createElement('th');
+                        th.innerText = it[key];
+                        tr.appendChild(th);
+                      }else if(key==='estadoPedido'){
+                        arrEstados.push(it[key]);
+                      }else{
+                        arrIndices.push(it[key]);
+                      }
+                    }
+                    th = document.createElement('th');
+                    const seleccionar = document.createElement('button');
+                    if(tipoUsuario==='USUARIO'){
+                      seleccionar.className="btn btn-outline-danger white";
+                      seleccionar.setAttribute('onclick',"removeItem("+arrIndices[ind]+")");
+                      seleccionar.innerHTML=`<i class="fa fa-minus-circle"></i>`;
+                      th.appendChild(seleccionar);
+                    }else if(tipoUsuario==='DESPACHADOR'){
+                      seleccionar.className="btn btn-outline-primary white";
+                      seleccionar.setAttribute('onclick',"despacharItem("+arrIndices[ind]+")");
+                      if(arrEstados[key]==='DESPACHADO'){
+                        seleccionar.setAttribute('disabled');
+                      }
+                      seleccionar.innerHTML=arrEstados[key];
+                      th.appendChild(seleccionar);
+                    }
+                    tr.appendChild(th);
+                    tbodyN.appendChild(tr);
+                  }
+          );
+          tabla.appendChild(tbodyN);
+        }
+      }
+      http.open('GET',url,true);
+      http.send();
+    }
+
+    function despacharItem(id){
+      const pedido = id;
+      const urlDespachar = 'http://localhost:3000/examen/pedidos/despachar/'+id;
+      const http = new XMLHttpRequest();
+
+      http.onreadystatechange = function(){
+        if(this.readyState === 4 && this.status === 200) {
+          actualizarTabla();
+        }
+      }
+
+      http.open('GET',urlDespachar,true);
+      http.send();
+    }
+
+    function removeItem(id){
+      const pedido = id;
+      const urlDelete = 'http://localhost:3000/examen/pedidos/eliminar/'+id;
+      const http = new XMLHttpRequest();
+
+      http.onreadystatechange = function(){
+        if(this.readyState === 4 && this.status === 200) {
+          actualizarTabla();
+        }
+      }
+      http.open('GET',urlDelete,true);
+      http.send();
+    }
+
+    socket.on(
+            'connect',
+            ()=>{
+              actualizarTabla();
+            }
+    );
+
+    socket.on(
+            'actualizar',
+            ()=>{
+              actualizarTabla();
+            }
+    )
+
+  </script>
+</body>

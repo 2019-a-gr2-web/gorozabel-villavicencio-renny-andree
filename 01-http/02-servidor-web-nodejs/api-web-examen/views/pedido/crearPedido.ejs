@@ -25,11 +25,11 @@
         }
     </style>
 </head>
-<body">
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
 
-    <a class="navbar-brand" href="bienvenido">Examen Web GR2</a>
+    <a class="navbar-brand" href="/examen/bienvenido">Examen Web GR2</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -210,7 +210,7 @@
 
 
           http.onreadystatechange = function(){
-            if(this.readyState == 4 && this.status == 200) {
+            if(this.readyState === 4 && this.status === 200) {
               console.log(http.responseText);
               const hijo = JSON.parse(http.responseText);
               pedido.hijos.push(hijo);

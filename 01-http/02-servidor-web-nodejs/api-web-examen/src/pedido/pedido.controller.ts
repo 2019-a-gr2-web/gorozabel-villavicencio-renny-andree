@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, Session } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, Session } from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { EntrenadorService } from '../entrenador/entrenador.service';
 import { PokemonService } from '../pokemon/pokemon.service';
@@ -6,12 +6,14 @@ import { PedidoEntity } from './pedido.entity';
 import { PedidoCreateDto } from './dto/pedido.create.dto';
 import { validate } from 'class-validator';
 import { PedidoUpdateDto } from './dto/pedido.update.dto';
+import { UsuarioService } from '../usuario/usuario.service';
 
 @Controller('examen/pedidos')
 export class PedidoController {
   constructor(private readonly pedidoService: PedidoService,
               private readonly entrenadorService:EntrenadorService,
-              private readonly pokemonService:PokemonService) {
+              private readonly pokemonService:PokemonService,
+              private readonly usuarioService:UsuarioService) {
   }
 
   @Post('crear/nuevo')
@@ -116,6 +118,54 @@ export class PedidoController {
       }catch (e) {
         console.error(e);
         res.redirect('/examen/bienvenido');
+      }
+    }else{
+      return res.redirect('/examen/inicioSesion');
+    }
+  }
+
+  @Get('mostrar')
+  async listarPedidos(
+    @Res() res,
+    @Session() session,
+  ){
+    if(session.usuario){
+      try{
+        res.render("pedido/verPedidos",{
+          nombre:session.nombreUsuario,
+          usuario:session.usuario
+        });
+      }catch (e) {
+        console.error(e)
+      }
+    }else{
+      return res.redirect('/examen/inicioSesion');
+    }
+  }
+
+  @Get('todos/:idUsuario')
+  async listarTodos(
+    @Res() res,
+    @Param('idUsuario') idUsuario,
+    @Session() session
+  ){
+    if(session.usuario){
+      var pedidos;
+      try{
+        if(idUsuario!=0){
+          const usuario = await this.usuarioService.buscar(idUsuario);
+          pedidos = await this.pedidoService.listar({
+            where:[
+              {usuario:usuario}
+            ]
+          });
+
+        }else{
+          pedidos = await this.pedidoService.listar();
+        }
+        res.send(pedidos);
+      }catch (e) {
+        console.error(e);
       }
     }else{
       return res.redirect('/examen/inicioSesion');
