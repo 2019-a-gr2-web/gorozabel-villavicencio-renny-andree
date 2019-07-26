@@ -1,4 +1,5 @@
 import { IsEmpty, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { UsuarioEntity } from '../../usuario/usuario.entity';
 
 export class PedidoCreateDto{
 
@@ -21,16 +22,19 @@ export class PedidoCreateDto{
   @IsString()
   identificacionPedido:string;
 
-  @IsEmpty()
+  @IsNotEmpty()
   @IsNumber()
   totalSinImpuestosPedido:number;
 
-  @IsEmpty()
+  @IsNotEmpty()
   @IsNumber()
   totalPedido:number;
 
   @IsNotEmpty()
   @IsString()
   estadoPedido:string;
+
+  @IsNotEmpty()
+  usuario:UsuarioEntity;
 
 }

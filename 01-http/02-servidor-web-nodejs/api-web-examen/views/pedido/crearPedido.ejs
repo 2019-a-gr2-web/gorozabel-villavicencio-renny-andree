@@ -136,7 +136,9 @@
     </div>
 
     <script>
-        var pedido={};
+        var pedido={
+          idPedido:""
+        };
         function seleccion(elemento){
           const id = elemento.value;
           const http = new XMLHttpRequest();
@@ -298,8 +300,8 @@
             telefonoPedido:telefono.value,
             identificacionPedido:identificacion.value,
             hijos:[],
-            totalSinImpuestosPedido:0,
-            totalPedido:0
+            totalPedido:0,
+            totalSinImpuestosPedido:0
           };
           console.log(pedido);
 
@@ -335,11 +337,48 @@
 
           http.open('GET',urlCategorias,true);
           http.send()
+
+          sendCabz();
+        }
+
+        function sendCabz(){
+          const http = new XMLHttpRequest();
+          const urlCabz = 'http://localhost:3000/examen/pedidos/crear/nuevo';
+          http.open("POST",urlCabz,true);
+          http.setRequestHeader('Content-Type', 'application/json');
+
+          const datos = JSON.stringify(pedido);
+          http.onreadystatechange = function() {
+            console.log(this.readyState);
+            if(this.readyState === XMLHttpRequest.DONE) {
+              console.log("RESPUESTA");
+              console.log(http.responseText);
+              const resp = JSON.parse(http.responseText).idPedido;
+              pedido.idPedido = resp
+
+            }
+          }
+
+          http.send(datos);
+
         }
 
         function confirmar(){
-            const http = new XMLHttpRequest();
-            const urlPedido = 'http://localhost:3000/'
+          const http = new XMLHttpRequest();
+          const urlCabz = 'http://localhost:3000/examen/pedidos/editar';
+
+          const datos = JSON.stringify(pedido);
+          http.onreadystatechange = function() {
+            if(this.readyState === XMLHttpRequest.DONE) {
+              alert("Pedido Registrado");
+              avisar();
+            }
+          }
+
+          console.log(datos);
+          http.open("POST",urlCabz,true);
+          http.setRequestHeader('Content-Type', 'application/json');
+          http.send(datos);
         }
 
         function añadirEtiqueta(idEtiqueta,elementoHTML){
