@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Crear Comida</title>
+    <title>Crear Entrenador</title>
     <meta charset ="UTF-8">
     <link rel="icon"
           href="/Imagenes/dropbox.ico">
@@ -55,36 +55,32 @@
 
 <div class="container">
     <div class="mt-5 d-flex justify-content-center">
-        <form action="/examen/crearComida" method="post">
-            <h1>Formulario de Creación de Comidas</h1>
-            <p>Crea una nueva Comida.</p>
-            <form action="/examen/crearComida"
-                  method="post">
-                <label for="nombreId">Nombre Plato</label>
-                <input id="nombreComidaId" name="nombrePlato" type="text">
+        <form action="/examen/crearEntrenador" method="post">
+            <h1>Formulario de Creacion de Entrenador</h1>
+
+                <label for="nombreId">Nombre</label>
+                <input id="nombreid" name="nombreEntrenador" type="text">
                 <br>
-                <label for="descripcionPlatoId">Descripcion Plato</label>
-                <input id="descripcionPlatoId" name="descripcionPlato" type="text">
+                <label for="apellidoId">Apellido</label>
+                <input id="apellidoId" name="apellidoEntrenador" type="text">
                 <br>
-                <label for="descripcionPreparacionId">Preparacion</label>
-                <input id="descripcionPreparacionId" name="descripcionPreparacion" type="text">
+                <label for="fechaNacimientoId">Fecha de Nacimiento</label>
+                <input id="fechaNacimientoId" name="fechaNacimientoEntrenador" type="date">
                 <br>
-                <label for="NacionalidadId">Nacionalidad</label>
-                <input id="NacionalidadId" name="nacionalidad" type="text">
+                <label for="medallasId"># Medallas</label>
+                <input id="medallasId" name="numeroMedallasEntrenador" type="number"
+                min="0"
+                step="1">
                 <br>
-                <label for="numeroPersonasId"># Personas</label>
-                <input id="numeroPersonasId" name="numeroPersonas" type="number" step="1">
+                <label for="campeonId">¿Campeon Actual?</label>
+                <input id="campeonId" name="campeonActualEntrenador" type="checkbox" value="true">
                 <br>
-                <label for="picanteId">Picantes</label>
-                <input id="picanteId" name="picante" type="checkbox">
-                <br>
-                <a href="/examen/listaComidas">
+                <a href="/examen/listarEntrenadores">
                     <button type="button">Cancelar</button>
                 </a>
                 <button>Enviar Informacion</button>
-            </form>
-        </form>
 
+        </form>
         <br>
     </div>
 </div>

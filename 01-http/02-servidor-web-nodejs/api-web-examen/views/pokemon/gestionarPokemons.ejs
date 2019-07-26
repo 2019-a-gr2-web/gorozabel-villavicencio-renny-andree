@@ -6,13 +6,14 @@
     }
 </style>
 <head>
-    <title>Gestion Tiendas</title>
+    <title>Gestion Pokemons</title>
     <meta charset ="UTF-8">
     <link rel="icon"
           href="/Imagenes/dropbox.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -27,7 +28,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
 
-    <a class="navbar-brand" href="bienvenido">Examen Web GR2</a>
+    <a class="navbar-brand" href="../../bienvenido">Examen Web GR2</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -40,6 +41,7 @@
                         <span>
                            <%= nombre%>
                         </span>
+
                 </a>
             </li>
         </ul>
@@ -48,22 +50,33 @@
             <li id="btn-salir" class="nav-item active">
                 <form action="/examen/borrarCookie" method="POST">
                     <button type="submit" class="btn btn-primary"style="background-color: lightblue">Salir</button>
+
                 </form>
+
             </li>
         </ul>
     </div>
+
+
+
+
+
+
 </nav>
+
+
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form action="/examen/buscarComida" method="POST">
+            <form action="/examen/pokemon/buscarHijo/<%=id%>" method="POST">
+
                 <div class="mt-5 d-flex justify-content-center">
                     <div class="row">
                         <div class="col-md-9">
                             <div class="form-group">
-                                <label for="busquedaComida">Búsqueda</label>
-                                <input class="form-control" id="busquedaComida" name="busquedaComida" type="text">
+                                <label for="busqueda">Búsqueda</label>
+                                <input class="form-control" id="busqueda" name="busqueda" type="text">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -71,7 +84,7 @@
                                 <button type="submit" class=" mt-4 btn btn-primary" >Buscar</button>
                             </div>
                             <div class="mt-3 d-flex justify-content-center">
-                                <a href="/examen/crearComida">
+                                <a href="/examen/pokemon/crearPokemon/<%=id%>/0">
                                     <button type="button" class="btn btn-primary" >Crear</button>
                                 </a>
                             </div>
@@ -80,34 +93,33 @@
                 </div>
             </form>
         </div>
+
     </div>
-    <div class="row mt-5" >
+    <div class="row mt-5">
         <div class="col-md-12">
-            <table class="ml-5" style="max-width: available">
+            <table class="ml-5">
                 <tr>
                     <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Preparacion</th>
-                    <th>Nacionalidad</th>
-                    <th># Personas</th>
-                    <th>Picante</th>
-                    <th>Opciones</th>
+                    <th>Poder Especial 1</th>
+                    <th>Poder Especial 2</th>
+                    <th>Fecha de Captura</th>
+                    <th>Nivel</th>
                 </tr>
-                <% arregloComida.forEach((comida)=>{ %>
+                <% pokemons.forEach((poke)=>{ %>
                     <tr>
-                        <td> <%= comida.nombrePlato %> </td>
-                        <td> <%= comida.descripcionPlato %> </td>
-                        <td> <%= comida.descripcionPreparacion %> </td>
-                        <td> <%= comida.nacionalidad %> </td>
-                        <td> <%= comida.numeroPersonas %> </td>
-                        <td> <%= comida.picante %> </td>
+                        <td> <%= poke.nombrePokemon %> </td>
+                        <td> <%= poke.poderEspecialUno %> </td>
+                        <td> <%= poke.poderEspecialDos %> </td>
+                        <td> <%= poke.fechaCapturaPokemon %> </td>
+                        <td> <%= poke.nivelPokemon %> </td>
                         <td>
-                            <a href="/examen/comida/gestionarIngredientes/<%=comida.idComida%>">
-                                <button>Gestionar Ingredientes</button>
-                            </a>
-                            <form action="/examen/eliminar" method="post">
-                                <input id="id" name="id" type="number" value="<%= comida.idComida %>"  hidden >
+                            <form action="/examen/pokemon/eliminarPokemon" method="post">
+                                <input id="idIngrediente" name="idPoke" type="number" value="<%= poke.numeroPokemon %>"hidden>
+                                <input id="comidaIdIngre" name="id" type="number" value="<%= id %>" hidden >
                                 <button>Borrar</button>
+                                <a href="/examen/pokemon/crearPokemon/<%=id%>/<%=poke.numeroPokemon%>">
+                                    <button type="button">Editar</button>
+                                </a>
                             </form>
                         </td>
                     </tr>
@@ -116,3 +128,7 @@
         </div>
     </div>
 </div>
+
+
+</body>
+</html>

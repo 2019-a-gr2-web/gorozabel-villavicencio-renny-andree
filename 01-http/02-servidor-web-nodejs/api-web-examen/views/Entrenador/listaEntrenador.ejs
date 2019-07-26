@@ -6,14 +6,13 @@
     }
 </style>
 <head>
-    <title>Gestion Ingredientes</title>
+    <title>Gestion Tiendas</title>
     <meta charset ="UTF-8">
     <link rel="icon"
           href="/Imagenes/dropbox.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -28,7 +27,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
 
-    <a class="navbar-brand" href="../../bienvenido">Examen Web GR2</a>
+    <a class="navbar-brand" href="bienvenido">Examen Web GR2</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -41,7 +40,6 @@
                         <span>
                            <%= nombre%>
                         </span>
-
                 </a>
             </li>
         </ul>
@@ -50,43 +48,30 @@
             <li id="btn-salir" class="nav-item active">
                 <form action="/examen/borrarCookie" method="POST">
                     <button type="submit" class="btn btn-primary"style="background-color: lightblue">Salir</button>
-
                 </form>
-
             </li>
         </ul>
     </div>
-
-
-
-
-
-
 </nav>
-
-
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form action="/examen/comida/buscarIngrediente/" method="POST">
-
+            <form action="/examen/buscarComida" method="POST">
                 <div class="mt-5 d-flex justify-content-center">
                     <div class="row">
                         <div class="col-md-9">
                             <div class="form-group">
-                                <label for="busquedaIngredientes">Búsqueda</label>
-                                <input class="form-control" id="busquedaIngredientes" name="busquedaIngredientes" type="text">
+                                <label for="busquedaComida">Búsqueda</label>
+                                <input class="form-control" id="busquedaComida" name="busquedaComida" type="text">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="d-flex justify-content-center">
-
                                 <button type="submit" class=" mt-4 btn btn-primary" >Buscar</button>
-
                             </div>
                             <div class="mt-3 d-flex justify-content-center">
-                                <a href="/examen/comida/crearIngrediente/<%=id%>">
+                                <a href="/examen/crearEntrenador">
                                     <button type="button" class="btn btn-primary" >Crear</button>
                                 </a>
                             </div>
@@ -95,34 +80,31 @@
                 </div>
             </form>
         </div>
-
     </div>
-    <div class="row mt-5">
+    <div class="row mt-5" >
         <div class="col-md-12">
-            <table class="ml-5">
+            <table class="ml-5" style="max-width: available">
                 <tr>
                     <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Cantidad</th>
-                    <th>Opcional</th>
-                    <th>Tipo</th>
-                    <th>Refrigeracion</th>
-                    <th>ComidaID</th>
+                    <th>Apellido</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th># Medallas</th>
+                    <th>¿Campeón Actual?</th>
                     <th>Opciones</th>
                 </tr>
-                <% arregloIngredientes.forEach((ingredientes)=>{ %>
+                <% entrenadores.forEach((e)=>{ %>
                     <tr>
-                        <td> <%= ingredientes.nombreIngrediente %> </td>
-                        <td> <%= ingredientes.descripcionPreparacion %> </td>
-                        <td> <%= ingredientes.cantidad %> </td>
-                        <td> <%= ingredientes.opcional %> </td>
-                        <td> <%= ingredientes.tipoIngrediente %> </td>
-                        <td> <%= ingredientes.necesitaRefrigeracion %> </td>
-                        <td> <%= ingredientes.comidaId %> </td>
+                        <td> <%= e.nombreEntrenador %> </td>
+                        <td> <%= e.apellidoEntrenador %> </td>
+                        <td> <%= e.fechaNacimientoEntrenador %> </td>
+                        <td> <%= e.numeroMedallasEntrenador %> </td>
+                        <td> <%= e.campeonActualEntrenador %> </td>
                         <td>
-                            <form action="/examen/comida/eliminarIngredientes" method="post">
-                                <input id="idIngrediente" name="idIngrediente" type="number" value="<%= ingredientes.id %>"hidden>
-                                <input id="comidaIdIngre" name="comidaIdIngre" type="number" value="<%= ingredientes.comidaId %>" hidden >
+                            <a href="/examen/pokemon/listarPokemon/<%=e.idEntrenador%>">
+                                <button>Gestionar Pokemons</button>
+                            </a>
+                            <form action="/examen/eliminar" method="post">
+                                <input id="id" name="id" type="number" value="<%= e.idEntrenador %>"  hidden >
                                 <button>Borrar</button>
                             </form>
                         </td>
@@ -132,7 +114,3 @@
         </div>
     </div>
 </div>
-
-
-</body>
-</html>
