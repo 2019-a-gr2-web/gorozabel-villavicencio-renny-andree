@@ -1,0 +1,111 @@
+form{
+    margin:0
+}
+body.blackBg{
+    background: #000;
+}
+.white{
+    color: #FFF;
+}
+.wallpaper{
+    background: url("/imagenes/inicio/bg.png") no-repeat center center fixed;
+    background-size: cover;
+}
+.centerDiv{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.padTop{
+    margin-top: 3%;
+}
+.centerDivH{
+    position: absolute;
+    left: 32%;
+    top: 40%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+}
+.wid{
+    width: 600%;
+}
+.fitImg {
+    max-width: 100%;
+    max-height: 100%;
+    display:block;
+    margin: auto;
+}
+.text-box {
+    height: 100%;
+    text-align: center;
+    width: 100%;
+}
+.boton{
+    border: solid 2px black;
+    border-radius: 3px
+}
+.boton-seleccionado{
+    color: black;
+    background-color: grey;
+}
+.boton-sin-seleccion{
+    color: white;
+    background-color: blue;
+}
+.maxW{
+    width: 100%;
+    display: block;
+}
+.right{
+    margin-left: 10%;
+}
+.marginLZero{
+    margin-left: 80%;
+}
+.marginT{
+    margin:2%;
+    margin-left: 80%;
+}
+.marginTotal{
+    margin:2%;
+}
+.divLogin{
+    padding: 1em;
+    display: inline-block;
+    border: solid 2px #000000;
+    background-color: #272929;
+}
+.divInicioContainer{
+    padding: 1em;
+    display: inline-block;
+    border: solid 2px #000000;
+    background:linear-gradient(rgba(18, 18, 18, 0.8), rgba(24, 24, 24, 0.8));
+}
+.bord{
+    border:solid red 10px;
+}
+.left{
+    display: inline-flex;
+    align-items: center;
+}
+.mini{
+    width: auto;
+    height: 7em;
+    padding-left: 2%;
+    vertical-align: middle;
+}
+.divInicio{
+    padding: 2em;
+    display: inline-block;
+    border: solid 2px #000000;
+    opacity: 1;
+    background-color: #272929;
+}
+.foot{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

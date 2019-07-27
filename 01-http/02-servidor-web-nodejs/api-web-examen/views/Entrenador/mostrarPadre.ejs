@@ -1,0 +1,61 @@
+<% const entrenadores = entrenadores %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="/examen/buscarComida" method="POST">
+                <div class="mt-5 d-flex justify-content-center">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="busquedaComida">Búsqueda</label>
+                                <input class="form-control" id="busquedaComida" name="busquedaComida" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class=" mt-4 btn btn-primary" >Buscar</button>
+                            </div>
+                            <div class="mt-3 d-flex justify-content-center">
+                                <a href="/examen/crearEntrenador">
+                                    <button type="button" class="btn btn-primary" >Crear</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-5" >
+        <div class="col-md-12">
+            <table class="ml-5" style="max-width: available">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th># Medallas</th>
+                    <th>¿Campeón Actual?</th>
+                    <th>Opciones</th>
+                </tr>
+                <% entrenadores.forEach((e)=>{ %>
+                    <tr>
+                        <td> <%= e.nombreEntrenador %> </td>
+                        <td> <%= e.apellidoEntrenador %> </td>
+                        <td> <%= e.fechaNacimientoEntrenador %> </td>
+                        <td> <%= e.numeroMedallasEntrenador %> </td>
+                        <td> <%= e.campeonActualEntrenador %> </td>
+                        <td>
+                            <a href="/examen/pokemon/listarPokemon/<%=e.idEntrenador%>">
+                                <button>Gestionar Pokemons</button>
+                            </a>
+                            <form action="/examen/eliminar" method="post">
+                                <input id="id" name="id" type="number" value="<%= e.idEntrenador %>"  hidden >
+                                <button>Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </table>
+        </div>
+    </div>
+</div>

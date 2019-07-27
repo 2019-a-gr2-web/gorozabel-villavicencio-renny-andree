@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title><%=idPoke==0 ? 'Crear' : 'Editar'%> Pokemon</title>
+    <meta charset ="UTF-8">
+    <link rel="icon"
+          href="/Imagenes/dropbox.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        .bgHK{
+            background-image: url("/Imagenes/HK-logo-new.jpg");
+            background-size:cover;
+        }
+    </style>
+</head>
+<body class="bgHK">
+<!-- header 1-6-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+
+    <a class="navbar-brand" href="../../bienvenido">Examen Web GR2</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav m-auto">
+            <li class="nav-item active" style="padding-right: 60px;">
+                <a>
+                        <span>
+                           <%= nombre%>
+                        </span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto" id="navbarSupportedContent">
+            <li id="btn-salir" class="nav-item active">
+                <form action="/examen/borrarCookie" method="POST">
+                    <button type="submit" class="btn btn-primary"style="background-color: lightblue">Salir</button>
+                </form>
+
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="mt-5 d-flex justify-content-center">
+            <h1>Formulario de <%=idPoke==0 ? 'ingreso' : 'actualización'%> de Pokemon</h1>
+            <form action="/examen/pokemon/<%=idPoke==0 ? 'crearPokemon' : 'editarPokemon/'%><%=idPoke==0 ? '' : idPoke%>"
+                  method="post">
+                <label for="nombreId">Nombre</label>
+                <input id="nombreId" name="nombrePokemon" type="text" value="<%=idPoke==0 ? '' : pokemon.nombrePokemon%>">
+                <br>
+                <label for="poderEspecialUnoID">Poder Especial #1</label>
+                <input id="poderEspecialUnoID" name="poderEspecialUno" type="text" value="<%=idPoke==0 ? '' : pokemon.poderEspecialUno%>">
+                <br>
+                <label for="poderEspecialDosID">Poder Especial #2</label>
+                <input id="poderEspecialDosID" name="poderEspecialDos" type="text" value="<%=idPoke==0 ? '' : pokemon.poderEspecialDos%>">
+                <br>
+                <label for="fechaId">Fecha de Captural</label>
+                <input id="fechaId" name="fechaCapturaPokemon" type="date" value="<%=idPoke==0 ? '' : pokemon.fechaCapturaPokemon%>">
+                <br>
+                <label for="nivelID">Nivel</label>
+                <input type="number" id="nivelID" name="nivelPokemon" min="1" step="1" value="<%=idPoke==0 ? '' : pokemon.nivelPokemon%>">
+                <br>
+                <label for="precioID">Precio</label>
+                <input type="number" id="precioID" name="precioPokemon" min="0.01" step="0.01" value="<%=idPoke==0 ? '' : pokemon.precioPokemon%>">
+                <br>
+                <label for="entrenadorID">ID Entrenador</label>
+                <input id="entrenadorID" name="id" type="number" min="0" value="<%=id%>" readonly>
+                <br>
+                <br>
+                <!--<button type="reset">Reset</button>-->
+                <!--<button type="submit">Submit</button>-->
+                <a href="/examen/comida/listarIngredientes">
+                    <button type="button">Cancelar</button>
+                </a>
+                <button>Enviar Informacion</button>
+            </form>
+
+        <br>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<style>
+    table,tr,td,th{
+        border: solid black 1px;
+    }
+</style>
+<head>
+    <title>Pedidos</title>
+    <meta charset ="UTF-8">
+    <link rel="icon"
+          href="/Imagenes/dropbox.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .bgHK{
+            background-image: url("/Imagenes/HK-logo-new.jpg");
+            background-size:cover;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+
+    <a class="navbar-brand" href="/examen/bienvenido">Examen Web GR2</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav m-auto">
+            <li class="nav-item active" style="padding-right: 60px;">
+                <a>
+                        <span>
+                           <%= nombre%>
+                        </span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto" id="navbarSupportedContent">
+            <li id="btn-salir" class="nav-item active">
+                <form action="/examen/borrarCookie" method="POST">
+                    <button type="submit" class="btn btn-primary"style="background-color: lightblue">Salir</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="row padTop divInicioContainer" id="encabezado">
+            <div class="white col-sm-4">
+                <label for="nombreID">Nombre: </label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="nombreID" name="nombrePedido" required>
+            </div>
+            <div class="white col-sm-4 padTop">
+                <label for="direccionID">Dirección: </label>
+            </div>
+            <div class="col-sm-8 padTop">
+                <input type="text" class="form-control" id="direccionID" name="direccionPedido" required>
+            </div>
+            <div class="white col-sm-4 padTop">
+                <label for="telefonoID">Teléfono: </label>
+            </div>
+            <div class="col-sm-8 padTop">
+                <input type="text" class="form-control" id="telefonoID" name="telefonoPedido" required>
+            </div>
+            <div class="white col-sm-4 padTop">
+                <label for="identificacionID">Identificación: </label>
+            </div>
+            <div class="col-sm-8 padTop">
+                <input type="text" class="form-control" id="identificacionID" name="identificacionPedido" required onkeypress="{document.getElementById('btnAceptar').removeAttribute('disabled')}">
+            </div>
+            <div class="">
+                <button type="button" class="marginT btn  btn-dark" onclick="aceptar()" disabled id="btnAceptar">Aceptar</button>
+            </div>
+
+        </div>
+        <div class="col-sm-6 padTop divInicioContainer" id="categorias" hidden></div>
+        <div class="col-sm-6 padTop divInicioContainer" id="valores" hidden>
+            <label for="totalSinImpuestosID">Total sin Impuestos: </label>
+            <input type="text" class="form-control" id="totalSinImpuestosID" readonly>
+            <label for="totalID">Total: </label>
+            <input type="text" class="form-control" id="totalID" readonly>
+            <button type="button" class="btn btn-primary btn-block" onclick="confirmar()">Confirmar Pedido</button>
+        </div>
+        <div class="row padTop divInicioContainer white" id="hijos" hidden>
+            <table class="table white" id="tablita">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Poder Especial 1</th>
+                    <th>Poder Especial 2</th>
+                    <th>Fecha de Captura</th>
+                    <th>Nivel</th>
+                    <th>Precio</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="cuerpo">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="row padTop divInicioContainer white" id="detalle" hidden>
+            <h2 id="dett"></h2>
+            <table class="table white" id="tDetalle">
+                <thead>
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Nombre</th>
+                    <th>Poder Especial 1</th>
+                    <th>Poder Especial 2</th>
+                    <th>Fecha de Captura</th>
+                    <th>Nivel</th>
+                    <th>Precio</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="tCuerpo">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/socket.io.js"></script>
+    <script>
+      const url ="http://localhost:3001/pedidos";
+      const socket = io(url);
+      const contenedor={};
+        var pedido={
+          idPedido:0
+        };
+        var detalle=[];
+        contenedor.pedido=pedido;
+        contenedor.detalle=detalle;
+
+        function seleccion(elemento){
+          const id = elemento.value;
+          const http = new XMLHttpRequest();
+          const url = 'http://localhost:3000/examen/pokemon/hijos/'+id;
+
+
+          http.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200){
+              console.log(http.responseText);
+              const hijos = JSON.parse(http.responseText);
+              console.log(hijos);
+              const tabla = document.getElementById('tablita');
+              const tbody = document.getElementById('cuerpo');
+              tabla.removeChild(tbody);
+              const tbodyN = document.createElement('tbody');
+              tbodyN.id="cuerpo";
+              const divHijos = document.getElementById('hijos');
+              var tr;
+              var th;
+              const arrIndices =[];
+              hijos.forEach(
+                (it,ind)=>{
+                  tr = document.createElement('tr');
+                  for(var key in it){
+                    if(key!='numeroPokemon'){
+                      th = document.createElement('th');
+                      th.innerText = it[key];
+                      tr.appendChild(th);
+                    }else{
+                      arrIndices.push(it[key]);
+                    }
+                  }
+                  th = document.createElement('th');
+                  const seleccionar = document.createElement('button');
+                  seleccionar.className="btn btn-outline-primary white";
+                  seleccionar.setAttribute('onclick',"addItem("+arrIndices[ind]+","+id+")");
+                  seleccionar.innerHTML=`<i class="fa fa-check"></i>`;
+                  th.appendChild(seleccionar);
+                  tr.appendChild(th);
+
+                  tbodyN.appendChild(tr);
+                }
+              );
+              tabla.appendChild(tbodyN);
+              divHijos.removeAttribute('hidden');
+            }
+          };
+          http.open("GET",url,true)
+          http.send();
+        }
+
+        function addItem(hijo){
+          const http = new XMLHttpRequest();
+          const urlHijo = "http://localhost:3000/examen/pokemon/hijo/"+hijo;
+
+          const contenedor = document.getElementById('detalle');
+          const titutlo = document.getElementById('dett');
+          titutlo.innerText="Detalle";
+          const arrIndices =[];
+
+          const tabla = document.getElementById('tDetalle');
+          const tbody = document.getElementById('tCuerpo');
+          tabla.removeChild(tbody);
+          const tbodyN = document.createElement('tbody');
+          tbodyN.id="tCuerpo";
+
+
+          http.onreadystatechange = function(){
+            if(this.readyState === 4 && this.status === 200) {
+              console.log(http.responseText);
+              const hijo = JSON.parse(http.responseText);
+              detalle.push(hijo);
+              var tr;
+              var th;
+              detalle.forEach(
+                (it,ind)=>{
+                  tr = document.createElement('tr');
+                  th = document.createElement('th');
+                  const cantidad = document.createElement('input');
+                  cantidad.type="number";
+                  cantidad.className="form-control";
+                  cantidad.setAttribute('min','1');
+                  cantidad.setAttribute('step','1');
+                  cantidad.value=1;
+                  cantidad.setAttribute('onchange','calcular()');
+                  th.appendChild(cantidad);
+                  tr.appendChild(th);
+                  for(var key in it){
+                    if(key!='numeroPokemon'){
+                      th = document.createElement('th');
+                      th.innerText = it[key];
+                      tr.appendChild(th);
+                    }else{
+                      arrIndices[key]=it[key];
+                    }
+                  }
+                  th = document.createElement('th');
+                  const seleccionar = document.createElement('button');
+                  seleccionar.className="btn btn-outline-danger white";
+                  seleccionar.setAttribute('onclick',"removeItem("+ind+","+arrIndices[key]+")");
+                  seleccionar.innerHTML=`<i class="fa fa-minus-circle"></i>`;
+                  th.appendChild(seleccionar);
+                  tr.appendChild(th);
+
+                  tbodyN.appendChild(tr);
+                }
+              );
+              contenedor.removeAttribute('hidden');
+              tabla.appendChild(tbodyN);
+              calcular();
+
+            }
+          }
+
+          http.open("GET",urlHijo,true);
+          http.send();
+
+        }
+
+        function removeItem(indice,numeroHijo){
+          const tbody = document.getElementById('tCuerpo');
+          tbody.deleteRow(indice);
+          detalle.splice(indice,1);
+
+          calcular();
+        }
+
+        function calcular(){
+          const totalSI = document.getElementById('totalSinImpuestosID');
+          totalSI.value=0;
+          const total = document.getElementById('totalID');
+          total.value=0;
+          const tbody = document.getElementById('tCuerpo');
+          console.log(tbody);
+          var cont=0;
+          for(let it of tbody.rows){
+            var cantidad = Number(it.cells[0].children[0].value);
+            contenedor.detalle[cont].cantidad=cantidad;
+            var precio = Number(it.cells[6].innerText);
+            totalSI.value= Number(totalSI.value)+(precio*cantidad);
+            cont++;
+          }
+          console.log("CANTIDAD--------------------");
+          console.log(contenedor.detalle);
+          total.value=totalSI.value*1.12;
+          const valores = document.getElementById('valores');
+          valores.removeAttribute('hidden');
+
+          pedido.totalSinImpuestosPedido=totalSI.value;
+          pedido.totalPedido = total.value;
+        }
+
+        function aceptar(){
+          const nombre = document.getElementById('nombreID');
+          const direccion = document.getElementById('direccionID');
+          const telefono = document.getElementById('telefonoID');
+          const identificacion = document.getElementById('identificacionID');
+        //  const totalSI = document.getElementById('totalSIID');
+        //  const total = document.getElementById('totalID');
+
+          pedido = {
+            nombrePedido:nombre.value,
+            direccionPedido:direccion.value,
+            telefonoPedido:telefono.value,
+            identificacionPedido:identificacion.value,
+            totalPedido:0,
+            totalSinImpuestosPedido:0
+          };
+          console.log(pedido);
+          contenedor.pedido=pedido;
+
+          const http = new XMLHttpRequest();
+          const urlCategorias = 'http://localhost:3000/examen/padres';
+
+          http.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200){
+              const categorias = JSON.parse(http.responseText);
+              console.log(categorias);
+
+              const contenedor = document.getElementById('categorias');
+              const titulo = document.createElement('h2');
+              titulo.innerText="Seleccione una categoria";
+              titulo.className="white";
+              añadirEtiqueta('categorias',titulo);
+              categorias.forEach(
+                (it)=>{
+                  const elemento = document.createElement('button');
+                  elemento.className="btn btn-danger marginTotal left";
+                  elemento.value=it.idEntrenador;
+                  elemento.innerText=it.nombreEntrenador;
+                  elemento.setAttribute('onclick',"seleccion(this)");
+                  añadirEtiqueta('categorias',elemento);
+                }
+              );
+              const encabezado = document.getElementById('encabezado');
+              encabezado.hidden=true;
+              contenedor.removeAttribute('hidden');
+
+            }
+          };
+
+          http.open('GET',urlCategorias,true);
+          http.send()
+
+          sendCabz();
+        }
+
+        function sendCabz(){
+          const http = new XMLHttpRequest();
+          const urlCabz = 'http://localhost:3000/examen/pedidos/crear/nuevo';
+          http.open("POST",urlCabz,true);
+          http.setRequestHeader('Content-Type', 'application/json');
+
+          const datos = JSON.stringify(contenedor.pedido);
+          http.onreadystatechange = function() {
+            console.log(this.readyState);
+            if(this.readyState === XMLHttpRequest.DONE) {
+              console.log("RESPUESTA");
+              console.log(http.responseText);
+              const resp = JSON.parse(http.responseText).idPedido;
+              contenedor.pedido.idPedido = resp
+              avisar();
+            }
+          }
+
+          http.send(datos);
+
+        }
+
+        function confirmar(){
+          const http = new XMLHttpRequest();
+          const urlCabz = 'http://localhost:3000/examen/pedidos/editar';
+          contenedor.pedido = pedido;
+
+          const datos = JSON.stringify(contenedor);
+          console.log(datos);
+          http.onreadystatechange = function() {
+            if(this.readyState === XMLHttpRequest.DONE) {
+              alert("Pedido Registrado");
+              avisar();
+            }
+          }
+          http.open("POST",urlCabz,true);
+          http.setRequestHeader('Content-Type', 'application/json');
+          http.send(datos);
+        }
+
+        function añadirEtiqueta(idEtiqueta,elementoHTML){
+          const etiqueta = document.getElementById(idEtiqueta);
+          etiqueta.appendChild(elementoHTML);
+        }
+
+        function avisar(){
+          const metodo ="avisar";
+          const datos={};
+          socket.emit(
+            metodo,
+            datos,
+            (respuesta) =>{
+              console.log(respuesta);
+            }
+          )
+        }
+    </script>
+</div>
