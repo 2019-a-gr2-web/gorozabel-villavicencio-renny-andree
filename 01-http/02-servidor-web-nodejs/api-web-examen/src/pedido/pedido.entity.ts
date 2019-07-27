@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { PokemonEntity } from '../pokemon/pokemon.entity';
 import { UsuarioEntity } from '../usuario/usuario.entity';
+import {  DetalleEntity } from '../detalle/detalle.entity';
 
 @Entity('pedido')
 export class PedidoEntity{
@@ -55,8 +56,8 @@ export class PedidoEntity{
   })
   estadoPedido:string;
 
-  @ManyToMany(type=>PokemonEntity,pokemon => pokemon.pedidos)
-  hijos:PokemonEntity[];
+  @OneToMany(type => DetalleEntity,detalle => detalle.idPedido)
+  idDetalle:DetalleEntity[];
 
   @ManyToOne(type => UsuarioEntity,user => user.pedidos)
   usuario:UsuarioEntity;

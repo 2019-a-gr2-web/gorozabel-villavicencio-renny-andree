@@ -97,7 +97,14 @@
       tbodyN.id="tCuerpo";
 
       const http = new XMLHttpRequest();
-      const url = 'http://localhost:3000/examen/pedidos/todos/'+idUsuario;
+      var url;
+      if(tipoUsuario==="DESPACHADOR"){
+        url = 'http://localhost:3000/examen/pedidos/todos/0';
+      }else{
+        url = 'http://localhost:3000/examen/pedidos/todos/'+idUsuario;
+      }
+
+      console.log(url);
 
       http.onreadystatechange = function(){
         if(this.readyState === 4 && this.status === 200){
@@ -115,8 +122,6 @@
                         th = document.createElement('th');
                         th.innerText = it[key];
                         tr.appendChild(th);
-                      }else if(key==='estadoPedido'){
-                        arrEstados.push(it[key]);
                       }else{
                         arrIndices.push(it[key]);
                       }
@@ -134,7 +139,8 @@
                       if(arrEstados[key]==='DESPACHADO'){
                         seleccionar.setAttribute('disabled');
                       }
-                      seleccionar.innerHTML=arrEstados[key];
+                      debugger;
+                      seleccionar.innerHTML="DESPACHAR";
                       th.appendChild(seleccionar);
                     }
                     tr.appendChild(th);
@@ -148,6 +154,18 @@
       http.send();
     }
 
+    function avisar(){
+      const metodo ="avisar";
+      const datos={};
+      socket.emit(
+              metodo,
+              datos,
+              (respuesta) =>{
+                console.log(respuesta);
+              }
+      )
+    }
+
     function despacharItem(id){
       const pedido = id;
       const urlDespachar = 'http://localhost:3000/examen/pedidos/despachar/'+id;
@@ -155,7 +173,7 @@
 
       http.onreadystatechange = function(){
         if(this.readyState === 4 && this.status === 200) {
-          actualizarTabla();
+          avisar();
         }
       }
 
@@ -170,7 +188,7 @@
 
       http.onreadystatechange = function(){
         if(this.readyState === 4 && this.status === 200) {
-          actualizarTabla();
+          avisar();
         }
       }
       http.open('GET',urlDelete,true);

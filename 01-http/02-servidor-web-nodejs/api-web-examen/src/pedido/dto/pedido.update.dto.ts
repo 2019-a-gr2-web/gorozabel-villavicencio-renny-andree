@@ -36,8 +36,6 @@ export class PedidoUpdateDto{
   @IsString()
   estadoPedido:string;
 
-  @IsNotEmpty()
-  hijos:PokemonEntity[];
 
   @IsNotEmpty()
   usuario:UsuarioEntity;

@@ -11,6 +11,8 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { PedidoEntity } from './pedido/pedido.entity';
 import { PedidoModule } from './pedido/pedido.module';
 import { ComunicacionModule } from './comunicacion/comunicacion.module';
+import { DetalleEntity } from './detalle/detalle.entity';
+import { DetalleModule } from './detalle/detalle.module';
 
 @Module({
   imports: [
@@ -26,7 +28,8 @@ import { ComunicacionModule } from './comunicacion/comunicacion.module';
         UsuarioEntity,
         EntrenadorEntity,
         PokemonEntity,
-        PedidoEntity
+        PedidoEntity,
+        DetalleEntity
       ],
       synchronize:true,
       dropSchema:false,
@@ -36,7 +39,8 @@ import { ComunicacionModule } from './comunicacion/comunicacion.module';
     UsuarioModule,
     PokemonModule,
     PedidoModule,
-    ComunicacionModule
+    ComunicacionModule,
+    DetalleModule
   ],
   controllers: [AppController],
   providers: [AppService],

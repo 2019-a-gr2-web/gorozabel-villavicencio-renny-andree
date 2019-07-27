@@ -139,9 +139,14 @@
     <script>
       const url ="http://localhost:3001/pedidos";
       const socket = io(url);
+      const contenedor={};
         var pedido={
-          idPedido:""
+          idPedido:0
         };
+        var detalle=[];
+        contenedor.pedido=pedido;
+        contenedor.detalle=detalle;
+
         function seleccion(elemento){
           const id = elemento.value;
           const http = new XMLHttpRequest();
@@ -213,10 +218,10 @@
             if(this.readyState === 4 && this.status === 200) {
               console.log(http.responseText);
               const hijo = JSON.parse(http.responseText);
-              pedido.hijos.push(hijo);
+              detalle.push(hijo);
               var tr;
               var th;
-              pedido.hijos.forEach(
+              detalle.forEach(
                 (it,ind)=>{
                   tr = document.createElement('tr');
                   th = document.createElement('th');
@@ -264,7 +269,7 @@
         function removeItem(indice,numeroHijo){
           const tbody = document.getElementById('tCuerpo');
           tbody.deleteRow(indice);
-          pedido.hijos.splice(indice,1);
+          detalle.splice(indice,1);
 
           calcular();
         }
@@ -276,11 +281,16 @@
           total.value=0;
           const tbody = document.getElementById('tCuerpo');
           console.log(tbody);
+          var cont=0;
           for(let it of tbody.rows){
             var cantidad = Number(it.cells[0].children[0].value);
+            contenedor.detalle[cont].cantidad=cantidad;
             var precio = Number(it.cells[6].innerText);
             totalSI.value= Number(totalSI.value)+(precio*cantidad);
+            cont++;
           }
+          console.log("CANTIDAD--------------------");
+          console.log(contenedor.detalle);
           total.value=totalSI.value*1.12;
           const valores = document.getElementById('valores');
           valores.removeAttribute('hidden');
@@ -302,11 +312,11 @@
             direccionPedido:direccion.value,
             telefonoPedido:telefono.value,
             identificacionPedido:identificacion.value,
-            hijos:[],
             totalPedido:0,
             totalSinImpuestosPedido:0
           };
           console.log(pedido);
+          contenedor.pedido=pedido;
 
           const http = new XMLHttpRequest();
           const urlCategorias = 'http://localhost:3000/examen/padres';
@@ -350,14 +360,14 @@
           http.open("POST",urlCabz,true);
           http.setRequestHeader('Content-Type', 'application/json');
 
-          const datos = JSON.stringify(pedido);
+          const datos = JSON.stringify(contenedor.pedido);
           http.onreadystatechange = function() {
             console.log(this.readyState);
             if(this.readyState === XMLHttpRequest.DONE) {
               console.log("RESPUESTA");
               console.log(http.responseText);
               const resp = JSON.parse(http.responseText).idPedido;
-              pedido.idPedido = resp
+              contenedor.pedido.idPedido = resp
               avisar();
             }
           }
@@ -369,16 +379,16 @@
         function confirmar(){
           const http = new XMLHttpRequest();
           const urlCabz = 'http://localhost:3000/examen/pedidos/editar';
+          contenedor.pedido = pedido;
 
-          const datos = JSON.stringify(pedido);
+          const datos = JSON.stringify(contenedor);
+          console.log(datos);
           http.onreadystatechange = function() {
             if(this.readyState === XMLHttpRequest.DONE) {
               alert("Pedido Registrado");
               avisar();
             }
           }
-
-          console.log(datos);
           http.open("POST",urlCabz,true);
           http.setRequestHeader('Content-Type', 'application/json');
           http.send(datos);

@@ -21,30 +21,29 @@ export class EntrenadorController {
     @Session() session
   ){
     console.log(nombre);
-    try{
+    try {
       var usuarios = await this.usuarioService.listar(
         {
-          where:[
-            {nombreUsuario:nombre}
+          where: [
+            { nombreUsuario: nombre }
           ]
         });
-    }
-    catch (e) {
-      console.error(e);
-    }
-    console.log(usuarios);
-    if(usuarios.length==0){
-      console.log("No existe");
-      return res.redirect('/examen/inicioSesion');
-    }else{
-      if(usuarios[0].passwordUsuario==passwd){
-        session.usuario=usuarios[0];
-        console.log(session);
-        return res.redirect('/examen/bienvenido');
-      }else{
-        console.log("Credenciales incorrectas");
+      console.log(usuarios);
+      if (usuarios.length == 0) {
+        console.log("No existe");
         return res.redirect('/examen/inicioSesion');
+      } else {
+        if (usuarios[0].passwordUsuario == passwd) {
+          session.usuario = usuarios[0];
+          console.log(session);
+          return res.redirect('/examen/bienvenido');
+        } else {
+          console.log("Credenciales incorrectas");
+          return res.redirect('/examen/inicioSesion');
+        }
       }
+    } catch (e) {
+      console.error(e);
     }
   }
     @Get('/listarEntrenadores')

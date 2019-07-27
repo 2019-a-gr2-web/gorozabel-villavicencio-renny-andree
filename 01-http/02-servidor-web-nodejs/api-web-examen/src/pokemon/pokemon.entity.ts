@@ -1,6 +1,7 @@
-import { Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Entity } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Entity, OneToMany } from 'typeorm';
 import { EntrenadorEntity } from '../entrenador/entrenador.entity';
 import { PedidoEntity } from '../pedido/pedido.entity';
+import { DetalleEntity } from '../detalle/detalle.entity';
 
 @Entity('pokemon')
 export class PokemonEntity{
@@ -47,11 +48,11 @@ export class PokemonEntity{
   })
   precioPokemon:number;
 
+  @OneToMany(type => DetalleEntity, detalle => detalle.idPokemon)
+  idDetalle:DetalleEntity[];
+
   @ManyToOne(type=>EntrenadorEntity,entrenador =>entrenador.pokemons)
   entrenador:EntrenadorEntity;
 
-  @ManyToMany(type=>PedidoEntity,pedido => pedido.hijos)
-  @JoinTable()
-  pedidos:PedidoEntity[];
 
 }

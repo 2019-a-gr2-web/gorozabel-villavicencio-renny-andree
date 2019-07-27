@@ -9,6 +9,8 @@ import { PokemonEntity } from '../pokemon/pokemon.entity';
 import { PokemonService } from '../pokemon/pokemon.service';
 import { UsuarioService } from '../usuario/usuario.service';
 import { UsuarioEntity } from '../usuario/usuario.entity';
+import { DetalleEntity } from '../detalle/detalle.entity';
+import { DetalleService } from '../detalle/detalle.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature(
@@ -16,7 +18,8 @@ import { UsuarioEntity } from '../usuario/usuario.entity';
         PedidoEntity,
         EntrenadorEntity,
         PokemonEntity,
-        UsuarioEntity
+        UsuarioEntity,
+        DetalleEntity
       ],
       'default'
     ),
@@ -29,6 +32,7 @@ import { UsuarioEntity } from '../usuario/usuario.entity';
     EntrenadorService,
     PokemonService,
     UsuarioService,
+    DetalleService
   ], //Servicios
   exports:[
     PedidoService
