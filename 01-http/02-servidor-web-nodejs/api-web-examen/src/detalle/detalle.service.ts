@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DetalleEntity } from './detalle.entity';
+import { PedidoEntity } from '../pedido/pedido.entity';
 
 @Injectable()
 export class DetalleService {
@@ -34,4 +35,6 @@ export class DetalleService {
     });
     return this._detalleRepository.remove(detalleEliminar);
   }
+
+
 }

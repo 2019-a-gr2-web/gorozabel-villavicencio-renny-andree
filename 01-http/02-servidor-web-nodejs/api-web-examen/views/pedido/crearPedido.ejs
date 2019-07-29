@@ -62,32 +62,34 @@
                 <label for="nombreID">Nombre: </label>
             </div>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="nombreID" name="nombrePedido" required>
+                <input type="text" class="form-control" id="nombreID" name="nombrePedido" value="<%= pedidoEditar!='' ? pedidoEditar.pedido.nombrePedido : ''%>" required>
             </div>
             <div class="white col-sm-4 padTop">
                 <label for="direccionID">Dirección: </label>
             </div>
             <div class="col-sm-8 padTop">
-                <input type="text" class="form-control" id="direccionID" name="direccionPedido" required>
+                <input type="text" class="form-control" id="direccionID" name="direccionPedido" value="<%= pedidoEditar!='' ? pedidoEditar.pedido.direccionPedido : ''%>" required>
             </div>
             <div class="white col-sm-4 padTop">
                 <label for="telefonoID">Teléfono: </label>
             </div>
             <div class="col-sm-8 padTop">
-                <input type="text" class="form-control" id="telefonoID" name="telefonoPedido" required>
+                <input type="text" class="form-control" id="telefonoID" name="telefonoPedido" value="<%= pedidoEditar!='' ? pedidoEditar.pedido.telefonoPedido : ''%>" required>
             </div>
             <div class="white col-sm-4 padTop">
                 <label for="identificacionID">Identificación: </label>
             </div>
             <div class="col-sm-8 padTop">
-                <input type="text" class="form-control" id="identificacionID" name="identificacionPedido" required onkeypress="{document.getElementById('btnAceptar').removeAttribute('disabled')}">
+                <input type="text" class="form-control" id="identificacionID" name="identificacionPedido" required value="<%= pedidoEditar!='' ? pedidoEditar.pedido.identificacionPedido : ''%>" onkeypress="{document.getElementById('btnAceptar').removeAttribute('disabled')}">
             </div>
             <div class="">
                 <button type="button" class="marginT btn  btn-dark" onclick="aceptar()" disabled id="btnAceptar">Aceptar</button>
             </div>
 
         </div>
-        <div class="col-sm-6 padTop divInicioContainer" id="categorias" hidden></div>
+        <div id="contenido">
+            <div class="col-sm-6 padTop divInicioContainer" id="categorias" hidden></div>
+        </div>
         <div class="col-sm-6 padTop divInicioContainer" id="valores" hidden>
             <label for="totalSinImpuestosID">Total sin Impuestos: </label>
             <input type="text" class="form-control" id="totalSinImpuestosID" readonly>
@@ -133,10 +135,13 @@
                 </tbody>
             </table>
         </div>
+        <input type="text" hidden value="<%= pedidoEditar!='' ? JSON.stringify(pedidoEditar) : ''%>" id="pedidoEditar">;
     </div>
 
     <script src="/socket.io.js"></script>
     <script>
+        const pedidoEditar = document.getElementById("pedidoEditar").value;
+
       const url ="http://localhost:3001/pedidos";
       const socket = io(url);
       const contenedor={};
@@ -196,6 +201,53 @@
           };
           http.open("GET",url,true)
           http.send();
+        }
+
+        function actualizarDetalle(){
+          const contenedor = document.getElementById('detalle');
+          const tabla = document.getElementById('tDetalle');
+          const tbody = document.getElementById('tCuerpo');
+          tabla.removeChild(tbody);
+          const tbodyN = document.createElement('tbody');
+          tbodyN.id="tCuerpo";
+          const arrIndices =[];
+          var tr;
+          var th;
+          detalle.forEach(
+            (it,ind)=>{
+              tr = document.createElement('tr');
+              th = document.createElement('th');
+              const cantidad = document.createElement('input');
+              cantidad.type="number";
+              cantidad.className="form-control";
+              cantidad.setAttribute('min','1');
+              cantidad.setAttribute('step','1');
+              cantidad.value=1;
+              cantidad.setAttribute('onchange','calcular()');
+              th.appendChild(cantidad);
+              tr.appendChild(th);
+              for(var key in it){
+                if(key!='numeroPokemon'){
+                  th = document.createElement('th');
+                  th.innerText = it[key];
+                  tr.appendChild(th);
+                }else{
+                  arrIndices[key]=it[key];
+                }
+              }
+              th = document.createElement('th');
+              const seleccionar = document.createElement('button');
+              seleccionar.className="btn btn-outline-danger white";
+              seleccionar.setAttribute('onclick',"removeItem("+ind+","+arrIndices[key]+")");
+              seleccionar.innerHTML=`<i class="fa fa-minus-circle"></i>`;
+              th.appendChild(seleccionar);
+              tr.appendChild(th);
+              tbodyN.appendChild(tr);
+            }
+          );
+          contenedor.removeAttribute('hidden');
+          tabla.appendChild(tbodyN);
+          calcular(1);
         }
 
         function addItem(hijo){
@@ -274,17 +326,22 @@
           calcular();
         }
 
-        function calcular(){
+        function calcular(val=0){
           const totalSI = document.getElementById('totalSinImpuestosID');
           totalSI.value=0;
           const total = document.getElementById('totalID');
           total.value=0;
           const tbody = document.getElementById('tCuerpo');
           console.log(tbody);
+          console.log(detalle);
           var cont=0;
           for(let it of tbody.rows){
+            console.log(contenedor.detalle);
             var cantidad = Number(it.cells[0].children[0].value);
-            contenedor.detalle[cont].cantidad=cantidad;
+            if(pedidoEditar=='')
+                contenedor.detalle[cont].cantidad=cantidad;
+            else
+              contenedor.detalle[cont]['cantidad']=cantidad;
             var precio = Number(it.cells[6].innerText);
             totalSI.value= Number(totalSI.value)+(precio*cantidad);
             cont++;
@@ -297,6 +354,44 @@
 
           pedido.totalSinImpuestosPedido=totalSI.value;
           pedido.totalPedido = total.value;
+
+          if(val==0)
+            crear();
+        }
+
+        function crear(){
+          const http = new XMLHttpRequest();
+          var urlHijo;
+          if(pedidoEditar!=''){
+            urlHijo = 'http://localhost:3000/examen/pedidos/editar/0';
+            contenedor.pedido = pedido;
+            contenedor.pedido.idPedido = JSON.parse(pedidoEditar).pedido.idPedido;
+          }
+          else{
+            urlHijo = "http://localhost:3000/examen/pedidos/crearP";
+            contenedor.pedido = pedido;
+          }
+
+          const datos = JSON.stringify(contenedor);
+
+
+
+          console.log("--------------------------------");
+          console.log(datos);
+
+          http.onreadystatechange = function(){
+            if(this.readyState === XMLHttpRequest.DONE) {
+              if(pedidoEditar==''){
+                const resp = JSON.parse(http.responseText).idPedido;
+                contenedor.pedido.idPedido = resp
+              }
+              avisar();
+            }
+          }
+
+          http.open('POST',urlHijo,true)
+          http.setRequestHeader('Content-Type', 'application/json');
+          http.send(datos);
         }
 
         function aceptar(){
@@ -326,7 +421,14 @@
               const categorias = JSON.parse(http.responseText);
               console.log(categorias);
 
+              const contenido = document.getElementById('contenido');
               const contenedor = document.getElementById('categorias');
+              contenido.removeChild(contenedor);
+              const contenedorN = document.createElement('div');
+              contenedorN.className="col-sm-6 padTop divInicioContainer";
+              contenedorN.setAttribute('hidden',true);
+              contenedorN.id="categorias";
+              contenido.appendChild(contenedorN);
               const titulo = document.createElement('h2');
               titulo.innerText="Seleccione una categoria";
               titulo.className="white";
@@ -342,7 +444,8 @@
                 }
               );
               const encabezado = document.getElementById('encabezado');
-              encabezado.hidden=true;
+              if(pedidoEditar=='')
+                encabezado.hidden=true;
               contenedor.removeAttribute('hidden');
 
             }
@@ -351,7 +454,6 @@
           http.open('GET',urlCategorias,true);
           http.send()
 
-          sendCabz();
         }
 
         function sendCabz(){
@@ -378,7 +480,7 @@
 
         function confirmar(){
           const http = new XMLHttpRequest();
-          const urlCabz = 'http://localhost:3000/examen/pedidos/editar';
+          const urlCabz = 'http://localhost:3000/examen/pedidos/editar/1';
           contenedor.pedido = pedido;
 
           const datos = JSON.stringify(contenedor);
@@ -396,6 +498,7 @@
 
         function añadirEtiqueta(idEtiqueta,elementoHTML){
           const etiqueta = document.getElementById(idEtiqueta);
+          etiqueta.removeAttribute('hidden');
           etiqueta.appendChild(elementoHTML);
         }
 
@@ -409,6 +512,18 @@
               console.log(respuesta);
             }
           )
+        }
+
+        if(pedidoEditar!=''){
+          console.log("Editar");
+          const pedidoN = JSON.parse(pedidoEditar);
+          console.log(pedidoN);
+          detalle=pedidoN.detalle;
+          pedido = pedidoN.pedido;
+          contenedor.detalle=detalle;
+          contenedor.pedido=pedido;
+          aceptar();
+          actualizarDetalle();
         }
     </script>
 </div>

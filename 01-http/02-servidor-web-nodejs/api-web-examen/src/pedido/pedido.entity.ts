@@ -56,7 +56,9 @@ export class PedidoEntity{
   })
   estadoPedido:string;
 
-  @OneToMany(type => DetalleEntity,detalle => detalle.idPedido)
+  @OneToMany(type => DetalleEntity,detalle => detalle.idPedido,{
+    cascade:true,
+  })
   idDetalle:DetalleEntity[];
 
   @ManyToOne(type => UsuarioEntity,user => user.pedidos)

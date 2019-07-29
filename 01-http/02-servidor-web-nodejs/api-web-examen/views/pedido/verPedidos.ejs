@@ -132,7 +132,18 @@
                       seleccionar.className="btn btn-outline-danger white";
                       seleccionar.setAttribute('onclick',"removeItem("+arrIndices[ind]+")");
                       seleccionar.innerHTML=`<i class="fa fa-minus-circle"></i>`;
+                      if(it.estadoPedido=="INICIADO"){
+                        const editar = document.createElement('button');
+                        editar.className="btn btn-primary white";
+                        editar.setAttribute('type','button');
+                        const anchor = document.createElement('a');
+                        anchor.setAttribute('href','http://localhost:3000/examen/pedidos/edit/'+arrIndices[ind]);
+                        editar.innerHTML=`<i class="fa fa-edit"></i>`;
+                        anchor.appendChild(editar);
+                        th.appendChild(anchor);
+                      }
                       th.appendChild(seleccionar);
+
                     }else if(tipoUsuario==='DESPACHADOR'){
                       seleccionar.className="btn btn-outline-primary white";
                       seleccionar.setAttribute('onclick',"despacharItem("+arrIndices[ind]+")");
@@ -152,6 +163,20 @@
       }
       http.open('GET',url,true);
       http.send();
+    }
+
+    function abrir(idPedido){
+      const http = new XMLHttpRequest();
+      const url = 'http://localhost:3000/examen/pedidos/edit/'+idPedido;
+
+      http.onreadystatechange = function(){
+        if(this.readyState === 4 && this.status === 200){
+          console.log('Ojala pasemos xd');
+        }
+      }
+      http.open('GET',url,true);
+      http.send();
+
     }
 
     function avisar(){

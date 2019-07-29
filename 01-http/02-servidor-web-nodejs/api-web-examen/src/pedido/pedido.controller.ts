@@ -66,10 +66,110 @@ export class PedidoController {
     return  this.detalleService.crear(detalle);
   }
 
-  @Post('editar')
+  @Post('crearP')
+  async crearP(
+    @Res() res,
+    @Body() objeto,
+    @Session() session
+  ){
+    if(session.usuario){
+      try{
+        console.log(objeto);
+        objeto.pedido.totalPedido =Number(objeto.pedido.totalPedido);
+        objeto.pedido.totalSinImpuestosPedido = Number(objeto.pedido.totalSinImpuestosPedido);
+        objeto.pedido.usuario = session.usuario;
+        const pedidoValido = new PedidoCreateDto();
+        pedidoValido.nombrePedido = objeto.pedido.nombrePedido;
+        pedidoValido.direccionPedido = objeto.pedido.direccionPedido;
+        pedidoValido.telefonoPedido = objeto.pedido.telefonoPedido;
+        pedidoValido.identificacionPedido = objeto.pedido.identificacionPedido;
+        objeto.pedido.estadoPedido = "INICIADO";
+        pedidoValido.estadoPedido = objeto.pedido.estadoPedido;
+        pedidoValido.usuario = session.usuario;
+        pedidoValido.totalSinImpuestosPedido = objeto.pedido.totalSinImpuestosPedido;
+        pedidoValido.totalPedido = objeto.pedido.totalPedido;
+
+        const errores = await validate(pedidoValido);
+        if(errores.length>0){
+          console.log("ERRORES");
+          console.error(errores);
+          return res.redirect('/examen/bienvenido');
+        }else{
+          const resp = await  this.pedidoService.crear(objeto.pedido);
+
+          const pedido = await this.pedidoService.buscar(resp.idPedido);
+
+          var detalle:DetalleEntity[]=[];
+
+          const arrIdPoke = [];
+          objeto.detalle.forEach(
+            (it,ind)=>{
+              var dett = new DetalleEntity();
+              var hijo = new PokemonEntity();
+              dett.idPedido=pedido;
+              dett.cantidadDetalle = Number(it.cantidad);
+              arrIdPoke.push(it.numeroPokemon);
+              /*detalle[ind].idPedido=pedidoA;
+              detalle[ind].cantidadDetalle = Number(it.cantidad);
+              delete it.cantidad;
+              detalle[ind].idPokemon = it;*/
+              detalle.push(dett);
+            }
+          );
+
+          var where=[];
+          arrIdPoke.forEach(
+            (it) =>{
+              where.push({
+                numeroPokemon:it
+              })
+            }
+          );
+
+          var parametros ={
+            where:where
+          };
+          console.log(parametros);
+
+          const hijos = await this.pokemonService.listar(parametros);
+
+          hijos.forEach(
+            (it,ind)=>{
+              detalle[ind].idPokemon=it
+            }
+          );
+
+          const detallesBdD = await this.detalleService.listar({
+            select:['idDetalle'],
+            where:[
+              {idPedido:pedido}
+            ]
+            }
+          );
+
+          for(let i=0;i<detallesBdD.length;i++)
+            await this.detalleService.eliminar(detallesBdD[i].idDetalle);
+
+          for(let i=0;i<detalle.length;i++){
+            await this.detalleService.crear(detalle[i]);
+          }
+
+          res.send(resp);
+        }
+      }catch (e) {
+        console.error(e);
+      }
+    }else{
+      return res.redirect('/examen/inicioSesion');
+
+    }
+  }
+
+  @Post('editar/:idEstado')
   async editar(
           @Res() res,
           @Session() session,
+          @Param('idEstado') idEstado:number,
           @Body() objeto,
       ){
   if(session.usuario){
@@ -78,7 +178,10 @@ export class PedidoController {
   pedido.idPedido = Number(objeto.pedido.idPedido);
   pedido.totalPedido = Number(objeto.pedido.totalPedido);
   pedido.totalSinImpuestosPedido = Number(objeto.pedido.totalSinImpuestosPedido);
-  pedido.estadoPedido = "POR DESPACHAR";
+  if(idEstado==1){
+    pedido.estadoPedido = "POR DESPACHAR";
+  }else
+    pedido.estadoPedido="INICIADO";
   pedido.usuario = session.usuario;
   pedido.nombrePedido = objeto.pedido.nombrePedido;
   pedido.direccionPedido = objeto.pedido.direccionPedido;
@@ -126,6 +229,17 @@ export class PedidoController {
             detalle[ind].idPokemon=it
           }
         );
+
+    const detallesBdD = await this.detalleService.listar({
+        select:['idDetalle'],
+        where:[
+          {idPedido:objeto.pedido}
+        ]
+      }
+    );
+
+      for(let i=0;i<detallesBdD.length;i++)
+        await this.detalleService.eliminar(detallesBdD[i].idDetalle);
 
         for(let i=0;i<detalle.length;i++)
           await this.detalleService.crear(detalle[i]);
@@ -214,13 +328,72 @@ export class PedidoController {
         }else{
           pedidos = await this.pedidoService.listar({
             where:[
-              {estadoPedido:'POR DESPACHAR'},
-              {estadoPedido:'INICIADO'}
+              {estadoPedido:'POR DESPACHAR'}
             ]
             }
           );
         }
         res.send(pedidos);
+      }catch (e) {
+        console.error(e);
+      }
+    }else{
+      return res.redirect('/examen/inicioSesion');
+    }
+  }
+
+  @Get('edit/:idPedido')
+  async editarPedido(
+    @Res() res,
+    @Param('idPedido') idPedido,
+    @Session() session
+  ){
+    if(session.usuario){
+      try{
+        const pedido = await this.pedidoService.buscar(idPedido);
+        console.log(pedido);
+        var parametros = {
+          where:[
+            {idPedido:pedido.idPedido}
+          ],
+          relations: ["idPokemon"]
+        };
+        const detalles = await this.detalleService.listar(parametros);
+        var where=[];
+        console.log(detalles);
+        const arrIdPoke = [];
+        detalles.forEach(
+          (it)=>{
+            arrIdPoke.push(it.idPokemon)
+          }
+        );
+        console.log(arrIdPoke);
+
+        arrIdPoke.forEach(
+          (it) =>{
+            where.push({
+              numeroPokemon:it.numeroPokemon
+            })
+          }
+        );
+
+        var parametrosD = {
+          where: where
+        }
+        console.log(JSON.stringify(parametrosD));
+        const items = await this.pokemonService.listar(parametrosD);
+
+        console.log(items);
+        const json = {
+          pedido:pedido,
+          detalle:items
+        };
+        console.log("Renderiza");
+
+        res.render('pedido/crearPedido',{
+          nombre:session.usuario.nombreUsuario,
+          pedidoEditar:json
+        });
       }catch (e) {
         console.error(e);
       }
@@ -236,7 +409,8 @@ export class PedidoController {
   ){
     if(session.usuario){
       res.render('pedido/crearPedido',{
-        nombre:session.usuario.nombreUsuario
+        nombre:session.usuario.nombreUsuario,
+        pedidoEditar:''
       })
     }else{
       return res.redirect('/examen/inicioSesion');
